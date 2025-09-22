@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Application Penetration Testing - 100 Days Plan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --gray: #95a5a6;
+            --completed: #27ae60;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 2rem;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .progress-circle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 1.5rem 0;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 1.2rem 0;
+            color: var(--secondary);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-card h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .color-theory { background-color: #3498db; }
+        .color-practice { background-color: #2ecc71; }
+        .color-solve { background-color: #f39c12; }
+        .color-review { background-color: #9b59b6; }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: var(--secondary);
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--primary);
+        }
+        
+        button.active {
+            background-color: var(--accent);
+        }
+        
+        .progress-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .progress-days {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: var(--dark);
+            margin-top: 0.5rem;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            min-width: 100px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .type-M { background-color: #e7f4ff; }
+        .type-P { background-color: #eaffea; }
+        .type-S { background-color: #fff4e6; }
+        .type-R { background-color: #f5eaff; }
+        
+        .completed {
+            position: relative;
+        }
+        
+        .completed::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--completed);
+        }
+        
+        .day-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--success);
+        }
+        
+        .resources-column {
+            max-width: 400px;
+        }
+        
+        .resource-link {
+            display: inline-block;
+            margin: 0.2rem 0.5rem 0.2rem 0;
+            padding: 0.2rem 0.5rem;
+            background: #e8f4fc;
+            border-radius: 4px;
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .resource-link:hover {
+            background: #d1e9fa;
+            text-decoration: underline;
+        }
+        
+        .portswigger-badge {
+            background: #FF6633;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        
+        .sources {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .source-card {
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .source-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .source-card h4 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .source-card a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .source-card a:hover {
+            text-decoration: underline;
+        }
+        
+        .source-description {
+            color: var(--dark);
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            color: var(--gray);
+        }
+        
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            header, .info-grid, .legend, .controls, .progress-section, .sources, footer {
+                display: none;
+            }
+            
+            table {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            
+            th {
+                background-color: #f0f0f0;
+                color: black;
+            }
+            
+            .type-M, .type-P, .type-S, .type-R {
+                background-color: #f9f9f9;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            th, td {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .resource-link {
+                font-size: 0.8rem;
+            }
+        }
+
+        .resource-icon {
+            margin-right: 5px;
+            width: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Web Application Penetration Testing Training Plan</h1>
+            <p>Duration: 100 Days | From Tuesday, September 9, 2025 to Wednesday, December 17, 2025</p>
+            <div class="progress-circle">
+                <span id="progress-percent">0%</span>
+            </div>
+        </header>
+        
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>General Information</h3>
+                <p><strong>Goal:</strong> Preparation for Web Application Penetration Testing (such as OSWA or similar)</p>
+                <p><strong>Start Date:</strong> Tuesday, September 9, 2025</p>
+                <p><strong>End Date:</strong> Wednesday, December 17, 2025</p>
+            </div>
+            
+            <div class="info-card">
+                <h3>Plan Structure</h3>
+                <p><strong>Study Days (M):</strong> Theoretical study and video watching</p>
+                <p><strong>Practice Days (P):</strong> Hands-on practice on training labs</p>
+                <p><strong>Solving Days (S):</strong> Solving tests and questions</p>
+                <p><strong>Review Days (R):</strong> Comprehensive material review</p>
+            </div>
+            
+            <div class="info-card">
+                <h3>Progress Tracking</h3>
+                <p>Check each day as you complete it</p>
+                <p>Use filter buttons to view specific day types</p>
+                <p>You can print the table using the print button</p>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="color-box color-theory"></div>
+                <span>Study Days (M)</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box color-practice"></div>
+                <span>Practice Days (P)</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box color-solve"></div>
+                <span>Solving Days (S)</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box color-review"></div>
+                <span>Review Days (R)</span>
+            </div>
+            <div class="legend-item">
+                <i class="fas fa-check-circle" style="color: var(--completed);"></i>
+                <span>Completed Days</span>
+            </div>
+        </div>
+        
+        <div class="progress-section">
+            <h3>Plan Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-days">
+                <span>Day 1</span>
+                <span>Day 100</span>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="completed-days">0</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="remaining-days">100</span>
+                    <span class="stat-label">Remaining</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="completion-rate">0%</span>
+                    <span class="stat-label">Completion</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="filter-buttons">
+                <button id="btn-all" class="active">Show All</button>
+                <button id="btn-M">Study Days (M)</button>
+                <button id="btn-P">Practice Days (P)</button>
+                <button id="btn-S">Solving Days (S)</button>
+                <button id="btn-R">Review Days (R)</button>
+                <button id="btn-completed">Completed Days</button>
+            </div>
+            <button id="btn-print">Print Table</button>
+        </div>
+        
+        <h2>Daily Plan with PortSwigger Labs</h2>
+        <table id="training-plan">
+            <thead>
+                <tr>
+                    <th width="50px">Done</th>
+                    <th width="60px">Day</th>
+                    <th width="120px">Date</th>
+                    <th width="80px">Type</th>
+                    <th>Topic</th>
+                    <th class="resources-column">Learning Resources & Labs</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Will be filled by JavaScript -->
+            </tbody>
+        </table>
+        
+        <h2>Learning Resources</h2>
+        <div class="sources">
+            <div class="sources-grid">
+                <div class="source-card">
+                    <h4>YouTube Channels</h4>
+                    <p><a href="https://www.youtube.com/c/NetworkChuck" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> NetworkChuck</a> - Ethical hacking and cybersecurity</p>
+                    <p><a href="https://www.youtube.com/c/JohnHammond010" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> John Hammond</a> - Cybersecurity education</p>
+                    <p><a href="https://www.youtube.com/c/LiveOverflow" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> LiveOverflow</a> - Security concepts and CTF walkthroughs</p>
+                    <p><a href="https://www.youtube.com/c/ippsec" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> IppSec</a> - HackTheBox walkthroughs</p>
+                    <p><a href="https://www.youtube.com/c/TheCyberMentor" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> The Cyber Mentor</a> - Penetration testing tutorials</p>
+                </div>
+                <div class="source-card">
+                    <h4>Practice Labs & Platforms</h4>
+                    <p><a href="https://portswigger.net/web-security" target="_blank"><i class="fa-solid fa-bug resource-icon" style="color: #ff6633;"></i> PortSwigger Web Security Academy</a> - Free web security training</p>
+                    <p><a href="https://www.hackthebox.com/" target="_blank"><i class="fa-solid fa-cube resource-icon" style="color: #9fef00;"></i> HackTheBox</a> - Penetration testing labs</p>
+                    <p><a href="https://tryhackme.com/" target="_blank"><i class="fa-solid fa-laptop-code resource-icon" style="color: #3498db;"></i> TryHackMe</a> - Learning cybersecurity</p>
+                    <p><a href="https://www.vulnhub.com/" target="_blank"><i class="fa-solid fa-server resource-icon" style="color: #333;"></i> VulnHub</a> - Vulnerable VMs for practice</p>
+                    <p><a href="https://overthewire.org/wargames/" target="_blank"><i class="fa-solid fa-gamepad resource-icon" style="color: #9b59b6;"></i> OverTheWire</a> - Wargames for learning security concepts</p>
+                </div>
+                <div class="source-card">
+                    <h4>Vulnerable Web Applications</h4>
+                    <p><a href="http://www.dvwa.co.uk/" target="_blank"><i class="fa-solid fa-bug resource-icon" style="color: #ff6633;"></i> DVWA</a> - Damn Vulnerable Web Application</p>
+                    <p><a href="https://owasp.org/www-project-juice-shop/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> OWASP Juice Shop</a> - Modern vulnerable web app</p>
+                    <p><a href="http://www.itsecgames.com/" target="_blank"><i class="fa-solid fa-bug resource-icon" style="color: #ff6633;"></i> bWAPP</a> - Buggy Web Application</p>
+                    <p><a href="https://owasp.org/www-project-webgoat/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> WebGoat</a> - OWASP WebGoat</p>
+                    <p><a href="https://github.com/WebGoat/WebGoat" target="_blank"><i class="fa-brands fa-github resource-icon" style="color: #333;"></i> WebGoat GitHub</a> - Source code</p>
+                </div>
+                <div class="source-card">
+                    <h4>Documentation & References</h4>
+                    <p><a href="https://owasp.org/www-project-top-ten/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> OWASP Top 10</a> - Web application security risks</p>
+                    <p><a href="https://owasp.org/www-project-web-security-testing-guide/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> OWASP Testing Guide</a> - Web security testing</p>
+                    <p><a href="https://book.hacktricks.xyz/" target="_blank"><i class="fa-solid fa-book resource-icon" style="color: #795548;"></i> HackTricks</a> - Pentesting tricks</p>
+                    <p><a href="https://pentesterlab.com/" target="_blank"><i class="fa-solid fa-certificate resource-icon" style="color: #ffc107;"></i> PentesterLab</a> - Exercises and badges</p>
+                    <p><a href="https://cheatsheetseries.owasp.org/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> OWASP Cheat Sheets</a> - Security cheat sheets</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>Additional Learning Resources</h2>
+        <div class="sources">
+            <div class="sources-grid">
+
+    <div class="source-card">
+      <h4>OWASP</h4>
+      <p class="source-description">Open source project dedicated to web application security</p>
+      <a href="https://owasp.org/" target="_blank">
+        <img class="resource-icon" src="https://owasp.org/www--site-theme/favicon.ico" alt="OWASP Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://owasp.org/
+      </a>
+    </div>
+                <div class="source-card">
+                    <h4>PortSwigger (Burp Suite)</h4>
+                    <p class="source-description">Educational platform and tool for web application penetration testing</p>
+                    <a href="https://portswigger.net/" target="_blank"><i class="fa-solid fa-bug resource-icon" style="color: #ff6633;"></i> https://portswigger.net/</a>
+                </div>
+                <div class="source-card">
+                    <h4>HackTheBox</h4>
+                    <p class="source-description">Platform for ethical hacking training with various challenges</p>
+                    <a href="https://www.hackthebox.com/" target="_blank"><i class="fa-solid fa-cube resource-icon" style="color: #9fef00;"></i> https://www.hackthebox.com/</a>
+                </div>
+    <div class="source-card">
+      <h4>TryHackMe</h4>
+      <p class="source-description">Platform for learning cybersecurity through interactive environments</p>
+      <a href="https://tryhackme.com/" target="_blank">
+        <img class="resource-icon" src="https://tryhackme.com/favicon.ico" alt="TryHackMe Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://tryhackme.com/
+      </a>
+    </div>
+
+    <div class="source-card">
+      <h4>Mozilla Developer Network (MDN)</h4>
+      <p class="source-description">Comprehensive web development resources and documentation</p>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/Security" target="_blank">
+        <img class="resource-icon" src="https://developer.mozilla.org/favicon.ico" alt="MDN Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://developer.mozilla.org/
+      </a>
+    </div>
+
+    <div class="source-card">
+      <h4>Hacksplaining</h4>
+      <p class="source-description">Interactive lessons for learning web security</p>
+      <a href="https://www.hacksplaining.com/lessons" target="_blank">
+        <img class="resource-icon" src="https://www.hacksplaining.com/favicon.png" alt="Hacksplaining Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://www.hacksplaining.com/
+      </a>
+    </div>
+    <div class="source-card">
+      <h4>HackerOne Hacktivity</h4>
+      <p class="source-description">Publicly disclosed vulnerability reports</p>
+      <a href="https://hackerone.com/hacktivity" target="_blank">
+        <img class="resource-icon" src="https://www.hackerone.com/favicon.ico" alt="Hacktivity Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://hackerone.com/hacktivity
+      </a>
+    </div>
+    <div class="source-card">
+      <h4>Infosec Institute</h4>
+      <p class="source-description">Cybersecurity education and resources</p>
+      <a href="https://www.infosecinstitute.com/resources/" target="_blank">
+        <img class="resource-icon" src="https://www.infosecinstitute.com/contentassets/c7101b8ec5f54fa5814d8194b703481e/infosec-favicon.png" alt="Infosec Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://www.infosecinstitute.com/
+      </a>
+    </div>
+
+    <div class="source-card">
+      <h4>SANS Institute</h4>
+      <p class="source-description">Information security training and certifications</p>
+      <a href="https://www.sans.org/blog/" target="_blank">
+        <img class="resource-icon" src="https://www.sans.org/favicon.ico" alt="SANS Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://www.sans.org/blog/
+      </a>
+    </div>
+
+    <div class="source-card">
+      <h4>Security Weekly</h4>
+      <p class="source-description">Podcasts and articles on information security</p>
+      <a href="https://securityweekly.com/" target="_blank">
+        <img class="resource-icon" src="https://www.scworld.com/favicon.ico" alt="Security Weekly Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://securityweekly.com/
+      </a>
+    </div>
+
+
+    <div class="source-card">
+      <h4>Cybrary</h4>
+      <p class="source-description">Free cybersecurity learning community</p>
+      <a href="https://www.cybrary.it/" target="_blank">
+        <img class="resource-icon" src="https://cdn.prod.website-files.com/63eef15e3ff8fd318e9a6888/646551ba0901c32b9639d05e_cybrary%20favicon.png" alt="Cybrary Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://www.cybrary.it/
+      </a>
+    </div>
+
+
+    <div class="source-card">
+      <h4>OWASP Cheat Sheet Series</h4>
+      <p class="source-description">Concise security guidance for developers</p>
+      <a href="https://cheatsheetseries.owasp.org/" target="_blank">
+        <img class="resource-icon" src="https://owasp.org/www--site-theme/favicon.ico" alt="OWASP CSS Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
+        https://cheatsheetseries.owasp.org/
+      </a>
+    </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>This training plan was created for preparation for web application penetration testing</p>
+            <p>© 2025 - Comprehensive 100-Day Training Plan</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Plan data with corrected resource links and additional vulnerabilities
+            const planData = [
+                {day: 1, date: "Tuesday 9/9/2025", type: "M", topic: "Introduction to Web Application Security", 
+                 resources: [
+                    {name: "OWASP Top 10", url: "https://owasp.org/www-project-top-ten/", icon: "shield-halved"},
+                    {name: "PortSwigger Academy", url: "https://portswigger.net/web-security", icon: "bug"},
+                    {name: "MDN Web Security", url: "https://developer.mozilla.org/en-US/docs/Web/Security", icon: "firefox"}
+                 ]},
+                {day: 2, date: "Wednesday 10/9/2025", type: "M", topic: "Setting up Testing Environment", 
+                 resources: [
+                    {name: "Kali Linux", url: "https://www.kali.org/", icon: "linux"},
+                    {name: "Burp Suite", url: "https://portswigger.net/burp", icon: "bug"},
+                    {name: "OWASP ZAP", url: "https://www.zaproxy.org/", icon: "shield-halved"},
+                    {name: "MDN HTTP", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP", icon: "firefox"}
+                 ]},
+                {day: 3, date: "Thursday 11/9/2025", type: "P", topic: "Practice: Tools Setup", 
+                 resources: [
+                    {name: "PortSwigger Setup", url: "https://portswigger.net/support/using-burp", icon: "bug"},
+                    {name: "Kali Linux Tutorial", url: "https://www.kali.org/tools/", icon: "linux"},
+                    {name: "OWASP ZAP Tutorial", url: "https://www.zaproxy.org/getting-started/", icon: "shield-halved"}
+                 ]},
+                {day: 4, date: "Friday 12/9/2025", type: "M", topic: "SQL Injection Vulnerability - Part 1", 
+                 resources: [
+                    {name: "OWASP SQL Guide", url: "https://owasp.org/www-community/attacks/SQL_Injection", icon: "shield-halved"},
+                    {name: "PortSwigger SQL Injection", url: "https://portswigger.net/web-security/sql-injection", icon: "bug"},
+                    {name: "MDN SQL Injection", url: "https://developer.mozilla.org/en-US/docs/Glossary/SQL_Injection", icon: "firefox"},
+                    {name: "PayloadsAllTheThings", url: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection", icon: "github"},
+                    {name: "ExploitDB", url: "https://www.exploit-db.com/docs/english/44348-sql-injection.pdf", icon: "database"}
+                 ]},
+                {day: 5, date: "Saturday 13/9/2025", type: "M", topic: "SQL Injection Vulnerability - Part 2", 
+                 resources: [
+                    {name: "PortSwigger SQL Labs", url: "https://portswigger.net/web-security/all-labs#sql-injection", icon: "bug"},
+                    {name: "SQL Injection Types", url: "https://portswigger.net/web-security/sql-injection/cheat-sheet", icon: "bug"}
+                 ]},
+                {day: 6, date: "Sunday 14/9/2025", type: "P", topic: "Practice: SQL Injection", 
+                 resources: [
+                    {name: "SQLi Labs", url: "https://portswigger.net/web-security/sql-injection/lab-retrieve-hidden-data", badge: "PortSwigger"},
+                    {name: "SQLi Union", url: "https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns", badge: "PortSwigger"},
+                    {name: "SQLi Blind", url: "https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses", badge: "PortSwigger"}
+                 ]},
+                {day: 7, date: "Monday 15/9/2025", type: "S", topic: "Solving: SQL Injection", 
+                 resources: [
+                    {name: "PortSwigger SQL Tests", url: "https://portswigger.net/web-security/all-labs#sql-injection", icon: "bug"},
+                    {name: "TryHackMe SQL Room", url: "https://tryhackme.com/room/sqlinjectionlm", icon: "laptop-code"}
+                 ]},
+                {day: 8, date: "Tuesday 16/9/2025", type: "M", topic: "XSS Vulnerability - Part 1", 
+                 resources: [
+                    {name: "OWASP XSS", url: "https://owasp.org/www-community/attacks/xss/", icon: "shield-halved"},
+                    {name: "PortSwigger XSS", url: "https://portswigger.net/web-security/cross-site-scripting", icon: "bug"},
+                    {name: "MDN XSS", url: "https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting", icon: "firefox"},
+                    {name: "XSS Cheat Sheet", url: "https://portswigger.net/web-security/cross-site-scripting/cheat-sheet", icon: "bug"},
+                    {name: "XSS Payloads", url: "https://github.com/payloadbox/xss-payload-list", icon: "github"}
+                 ]},
+                {day: 9, date: "Wednesday 17/9/2025", type: "M", topic: "XSS Vulnerability - Part 2", 
+                 resources: [
+                    {name: "PortSwigger XSS Labs", url: "https://portswigger.net/web-security/all-labs#cross-site-scripting", icon: "bug"},
+                    {name: "XSS Filter Evasion", url: "https://portswigger.net/web-security/cross-site-scripting/cheat-sheet", icon: "bug"}
+                 ]},
+                {day: 10, date: "Thursday 18/9/2025", type: "P", topic: "Practice: XSS", 
+                 resources: [
+                    {name: "Reflected XSS", url: "https://portswigger.net/web-security/cross-site-scripting/reflected/lab-html-context-nothing-encoded", badge: "PortSwigger"},
+                    {name: "Stored XSS", url: "https://portswigger.net/web-security/cross-site-scripting/stored/lab-html-context-nothing-encoded", badge: "PortSwigger"},
+                    {name: "DOM XSS", url: "https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink", badge: "PortSwigger"}
+                 ]},
+                {day: 11, date: "Friday 19/9/2025", type: "S", topic: "Solving: XSS", 
+                 resources: [
+                    {name: "PortSwigger XSS Tests", url: "https://portswigger.net/web-security/all-labs#cross-site-scripting", icon: "bug"},
+                    {name: "TryHackMe XSS Room", url: "https://tryhackme.com/room/xss", icon: "laptop-code"}
+                 ]},
+                {day: 12, date: "Saturday 20/9/2025", type: "M", topic: "CSRF - Part 1", 
+                 resources: [
+                    {name: "OWASP CSRF", url: "https://owasp.org/www-community/attacks/csrf", icon: "shield-halved"},
+                    {name: "PortSwigger CSRF", url: "https://portswigger.net/web-security/csrf", icon: "bug"},
+                    {name: "MDN CSRF", url: "https://developer.mozilla.org/en-US/docs/Glossary/CSRF", icon: "firefox"}
+                 ]},
+                {day: 13, date: "Sunday 21/9/2025", type: "M", topic: "CSRF - Part 2", 
+                 resources: [
+                    {name: "PortSwigger CSRF Labs", url: "https://portswigger.net/web-security/all-labs#cross-site-request-forgery-csrf", icon: "bug"},
+                    {name: "CSRF Protection", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html", icon: "shield-halved"}
+                 ]},
+                {day: 14, date: "Monday 22/9/2025", type: "P", topic: "Practice: CSRF", 
+                 resources: [
+                    {name: "CSRF Basic", url: "https://portswigger.net/web-security/csrf/lab-no-defenses", badge: "PortSwigger"},
+                    {name: "CSRF Token", url: "https://portswigger.net/web-security/csrf/lab-token-not-tied-to-user-session", badge: "PortSwigger"},
+                    {name: "CSRF Referer", url: "https://portswigger.net/web-security/csrf/lab-validation-of-referer-dependent-on-header-being-present", badge: "PortSwigger"}
+                 ]},
+                {day: 15, date: "Tuesday 23/9/2025", type: "S", topic: "Solving: CSRF", 
+                 resources: [
+                    {name: "PortSwigger CSRF Tests", url: "https://portswigger.net/web-security/all-labs#cross-site-request-forgery-csrf", icon: "bug"}
+                 ]},
+                {day: 16, date: "Wednesday 24/9/2025", type: "M", topic: "Access Control Vulnerabilities - Part 1", 
+                 resources: [
+                    {name: "OWASP Access Control", url: "https://owasp.org/www-community/Access_Control_Cheat_Sheet", icon: "shield-halved"},
+                    {name: "PortSwigger Access Control", url: "https://portswigger.net/web-security/access-control", icon: "bug"},
+                    {name: "MDN Access Control", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS", icon: "firefox"}
+                 ]},
+                {day: 17, date: "Thursday 25/9/2025", type: "M", topic: "Access Control Vulnerabilities - Part 2", 
+                 resources: [
+                    {name: "PortSwigger Access Control Labs", url: "https://portswigger.net/web-security/all-labs#access-control-vulnerabilities", icon: "bug"},
+                    {name: "IDOR Tutorial", url: "https://portswigger.net/web-security/access-control/idor", icon: "bug"}
+                 ]},
+                {day: 18, date: "Friday 26/9/2025", type: "P", topic: "Practice: Access Control", 
+                 resources: [
+                    {name: "IDOR", url: "https://portswigger.net/web-security/access-control/lab-unprotected-admin-functionality", badge: "PortSwigger"},
+                    {name: "Privilege Escalation", url: "https://portswigger.net/web-security/access-control/lab-unprotected-admin-functionality-with-unpredictable-url", badge: "PortSwigger"},
+                    {name: "Vertical ACL", url: "https://portswigger.net/web-security/access-control/lab-vertical-privilege-escalation", badge: "PortSwigger"}
+                 ]},
+                {day: 19, date: "Saturday 27/9/2025", type: "S", topic: "Solving: Access Control", 
+                 resources: [
+                    {name: "PortSwigger Access Control Tests", url: "https://portswigger.net/web-security/all-labs#access-control-vulnerabilities", icon: "bug"}
+                 ]},
+                {day: 20, date: "Sunday 28/9/2025", type: "R", topic: "Review: Authentication-related Vulnerabilities", 
+                 resources: [
+                    {name: "OWASP Authentication Cheatsheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html", icon: "shield-halved"},
+                    {name: "PortSwigger Authentication", url: "https://portswigger.net/web-security/authentication", icon: "bug"}
+                 ]},
+                {day: 21, date: "Monday 29/9/2025", type: "M", topic: "Server-Side Request Forgery (SSRF) - Part 1", 
+                 resources: [
+                    {name: "OWASP SSRF", url: "https://owasp.org/www-community/attacks/Server_Side_Request_Forgery", icon: "shield-halved"},
+                    {name: "PortSwigger SSRF", url: "https://portswigger.net/web-security/ssrf", icon: "bug"},
+                    {name: "HackerOne SSRF Reports", url: "https://hackerone.com/hacktivity?querystring=ssrf", icon: "bug"},
+                    {name: "Orange Tsai SSRF Research", url: "https://blog.orange.tw/2017/07/how-i-chained-4-vulnerabilities-on.html", icon: "blog"}
+                 ]},
+                {day: 22, date: "Tuesday 30/9/2025", type: "M", topic: "Server-Side Request Forgery (SSRF) - Part 2", 
+                 resources: [
+                    {name: "PortSwigger SSRF Labs", url: "https://portswigger.net/web-security/all-labs#server-side-request-forgery-ssrf", icon: "bug"},
+                    {name: "SSRF Exploitation", url: "https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery", icon: "book"}
+                 ]},
+                {day: 23, date: "Wednesday 1/10/2025", type: "P", topic: "Practice: SSRF", 
+                 resources: [
+                    {name: "Basic SSRF", url: "https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-localhost", badge: "PortSwigger"},
+                    {name: "SSRF Filter Bypass", url: "https://portswigger.net/web-security/ssrf/lab-ssrf-with-filter-bypass", badge: "PortSwigger"},
+                    {name: "SSRF AWS", url: "https://portswigger.net/web-security/ssrf/lab-ssrf-against-aws-ec2-metadata-api", badge: "PortSwigger"}
+                 ]},
+                {day: 24, date: "Thursday 2/10/2025", type: "S", topic: "Solving: SSRF", 
+                 resources: [
+                    {name: "PortSwigger SSRF Tests", url: "https://portswigger.net/web-security/all-labs#server-side-request-forgery-ssrf", icon: "bug"}
+                 ]},
+                {day: 25, date: "Friday 3/10/2025", type: "M", topic: "Server-Side Template Injection (SSTI) - Part 1", 
+                 resources: [
+                    {name: "OWASP SSTI", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/18-Testing_for_Server_Side_Template_Injection", icon: "shield-halved"},
+                    {name: "PortSwigger SSTI", url: "https://portswigger.net/web-security/server-side-template-injection", icon: "bug"},
+                    {name: "SSTI Research", url: "https://portswigger.net/research/server-side-template-injection", icon: "bug"}
+                 ]},
+                {day: 26, date: "Saturday 4/10/2025", type: "M", topic: "Server-Side Template Injection (SSTI) - Part 2", 
+                 resources: [
+                    {name: "PortSwigger SSTI Labs", url: "https://portswigger.net/web-security/all-labs#server-side-template-injection", icon: "bug"},
+                    {name: "SSTI Cheatsheet", url: "https://portswigger.net/web-security/server-side-template-injection/cheat-sheet", icon: "bug"}
+                 ]},
+                {day: 27, date: "Sunday 5/10/2025", type: "P", topic: "Practice: SSTI", 
+                 resources: [
+                    {name: "Basic SSTI", url: "https://portswigger.net/web-security/server-side-template-injection/lab-basic", badge: "PortSwigger"},
+                    {name: "SSTI Code Execution", url: "https://portswigger.net/web-security/server-side-template-injection/lab-basic-code-context", badge: "PortSwigger"},
+                    {name: "SSTI Advanced", url: "https://portswigger.net/web-security/server-side-template-injection/lab-advanced", badge: "PortSwigger"}
+                 ]},
+                {day: 28, date: "Monday 6/10/2025", type: "S", topic: "Solving: SSTI", 
+                 resources: [
+                    {name: "PortSwigger SSTI Tests", url: "https://portswigger.net/web-security/all-labs#server-side-template-injection", icon: "bug"}
+                 ]},
+                {day: 29, date: "Tuesday 7/10/2025", type: "M", topic: "XML External Entity (XXE) - Part 1", 
+                 resources: [
+                    {name: "OWASP XXE", url: "https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing", icon: "shield-halved"},
+                    {name: "PortSwigger XXE", url: "https://portswigger.net/web-security/xxe", icon: "bug"},
+                    {name: "HackerOne XXE Reports", url: "https://hackerone.com/hacktivity?querystring=xxe", icon: "bug"}
+                 ]},
+                {day: 30, date: "Wednesday 8/10/2025", type: "M", topic: "XML External Entity (XXE) - Part 2", 
+                 resources: [
+                    {name: "PortSwigger XXE Labs", url: "https://portswigger.net/web-security/all-labs#xml-external-entity-xxe-injection", icon: "bug"},
+                    {name: "XXE Payloads", url: "https://portswigger.net/web-security/xxe/cheat-sheet", icon: "bug"}
+                 ]},
+                {day: 31, date: "Thursday 9/10/2025", type: "P", topic: "Practice: XXE", 
+                 resources: [
+                    {name: "XXE Basic", url: "https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-retrieve-files", badge: "PortSwigger"},
+                    {name: "XXE SSRF", url: "https://portswigger.net/web-security/xxe/lab-xxe-to-exploit-ssrf", badge: "PortSwigger"},
+                    {name: "XXE Blind", url: "https://portswigger.net/web-security/xxe/lab-blind-xxe-with-out-of-band-interaction", badge: "PortSwigger"}
+                 ]},
+                {day: 32, date: "Friday 10/10/2025", type: "S", topic: "Solving: XXE", 
+                 resources: [
+                    {name: "PortSwigger XXE Tests", url: "https://portswigger.net/web-security/all-labs#xml-external-entity-xxe-injection", icon: "bug"}
+                 ]},
+                {day: 33, date: "Saturday 11/10/2025", type: "M", topic: "Insecure Deserialization - Part 1", 
+                 resources: [
+                    {name: "OWASP Insecure Deserialization", url: "https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data", icon: "shield-halved"},
+                    {name: "PortSwigger Insecure Deserialization", url: "https://portswigger.net/web-security/deserialization", icon: "bug"},
+                    {name: "HackerOne Deserialization Reports", url: "https://hackerone.com/hacktivity?querystring=deserialization", icon: "bug"}
+                 ]},
+                {day: 34, date: "Sunday 12/10/2025", type: "M", topic: "Insecure Deserialization - Part 2", 
+                 resources: [
+                    {name: "PortSwigger Insecure Deserialization Labs", url: "https://portswigger.net/web-security/all-labs#insecure-deserialization", icon: "bug"},
+                    {name: "Java Deserialization", url: "https://github.com/frohoff/ysoserial", icon: "github"}
+                 ]},
+                {day: 35, date: "Monday 13/10/2025", type: "P", topic: "Practice: Insecure Deserialization", 
+                 resources: [
+                    {name: "PHP Deserialization", url: "https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-modifying-serialized-objects", badge: "PortSwigger"},
+                    {name: "Java Deserialization", url: "https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-modifying-serialized-data-types", badge: "PortSwigger"},
+                    {name: "DotNet Deserialization", url: "https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-using-deserialization-sink-to-invoke-arbitrary-method", badge: "PortSwigger"}
+                 ]},
+                {day: 36, date: "Tuesday 14/10/2025", type: "S", topic: "Solving: Insecure Deserialization", 
+                 resources: [
+                    {name: "PortSwigger Deserialization Tests", url: "https://portswigger.net/web-security/all-labs#insecure-deserialization", icon: "bug"}
+                 ]},
+                {day: 37, date: "Wednesday 15/10/2025", type: "M", topic: "Authentication Vulnerabilities - Part 1", 
+                 resources: [
+                    {name: "OWASP Authentication", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/04-Authentication_Testing/", icon: "shield-halved"},
+                    {name: "PortSwigger Authentication", url: "https://portswigger.net/web-security/authentication", icon: "bug"},
+                    {name: "MDN Authentication", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication", icon: "firefox"}
+                 ]},
+                {day: 38, date: "Thursday 16/10/2025", type: "M", topic: "Authentication Vulnerabilities - Part 2", 
+                 resources: [
+                    {name: "PortSwigger Auth Labs", url: "https://portswigger.net/web-security/all-labs#authentication", icon: "bug"},
+                    {name: "Auth Bypass Techniques", url: "https://portswigger.net/web-security/authentication/cheat-sheet", icon: "bug"}
+                 ]},
+                {day: 39, date: "Friday 17/10/2025", type: "P", topic: "Practice: Authentication", 
+                 resources: [
+                    {name: "Auth Bypass", url: "https://portswigger.net/web-security/authentication/other-mechanisms/lab-basic-brute-force", badge: "PortSwigger"},
+                    {name: "2FA Bypass", url: "https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-bypass-using-a-brute-force-attack", badge: "PortSwigger"},
+                    {name: "Password Reset", url: "https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-poisoning", badge: "PortSwigger"}
+                 ]},
+                {day: 40, date: "Saturday 18/10/2025", type: "S", topic: "Solving: Authentication", 
+                 resources: [
+                    {name: "PortSwigger Auth Tests", url: "https://portswigger.net/web-security/all-labs#authentication", icon: "bug"}
+                 ]},
+                {day: 41, date: "Sunday 19/10/2025", type: "R", topic: "Review: Processing Vulnerabilities", 
+                 resources: [
+                    {name: "OWASP Cheat Sheets", url: "https://cheatsheetseries.owasp.org/", icon: "shield-halved"},
+                    {name: "PortSwigger Web Security", url: "https://portswigger.net/web-security", icon: "bug"}
+                 ]},
+                {day: 42, date: "Monday 20/10/2025", type: "M", topic: "Business Logic Vulnerabilities - Part 1", 
+                 resources: [
+                    {name: "OWASP Business Logic", url: "https://owasp.org/www-community/vulnerabilities/Business_logic_vulnerability", icon: "shield-halved"},
+                    {name: "PortSwigger Business Logic", url: "https://portswigger.net/web-security/logic-flaws", icon: "bug"},
+                    {name: "HackerOne Logic Flaw Reports", url: "https://hackerone.com/hacktivity?querystring=logic%20flaw", icon: "bug"}
+                 ]},
+                {day: 43, date: "Tuesday 21/10/2025", type: "M", topic: "Business Logic Vulnerabilities - Part 2", 
+                 resources: [
+                    {name: "PortSwigger Logic Labs", url: "https://portswigger.net/web-security/all-labs#business-logic-vulnerabilities", icon: "bug"},
+                    {name: "Logic Flaws Examples", url: "https://portswigger.net/web-security/logic-flaws/examples", icon: "bug"}
+                 ]},
+                {day: 44, date: "Wednesday 22/10/2025", type: "P", topic: "Practice: Business Logic", 
+                 resources: [
+                    {name: "Logic Flaw 1", url: "https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-high-level", badge: "PortSwigger"},
+                    {name: "Logic Flaw 2", url: "https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-low-level", badge: "PortSwigger"},
+                    {name: "Logic Flaw 3", url: "https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-authentication", badge: "PortSwigger"}
+                 ]},
+                {day: 45, date: "Thursday 23/10/2025", type: "S", topic: "Solving: Business Logic", 
+                 resources: [
+                    {name: "PortSwigger Logic Tests", url: "https://portswigger.net/web-security/all-labs#business-logic-vulnerabilities", icon: "bug"}
+                 ]},
+                {day: 46, date: "Friday 24/10/2025", type: "M", topic: "HTTP Request Smuggling - Part 1", 
+                 resources: [
+                    {name: "OWASP HTTP Smuggling", url: "https://owasp.org/www-community/attacks/HTTP_Request_Smuggling", icon: "shield-halved"},
+                    {name: "PortSwigger HTTP Smuggling", url: "https://portswigger.net/web-security/request-smuggling", icon: "bug"},
+                    {name: "HackerOne Smuggling Reports", url: "https://hackerone.com/hacktivity?querystring=request%20smuggling", icon: "bug"}
+                 ]},
+                {day: 47, date: "Saturday 25/10/2025", type: "M", topic: "HTTP Request Smuggling - Part 2", 
+                 resources: [
+                    {name: "PortSwigger Smuggling Labs", url: "https://portswigger.net/web-security/all-labs#http-request-smuggling", icon: "bug"},
+                    {name: "Smuggling Research", url: "https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn", icon: "bug"}
+                 ]},
+                {day: 48, date: "Sunday 26/10/2025", type: "P", topic: "Practice: HTTP Request Smuggling", 
+                 resources: [
+                    {name: "Basic Smuggling", url: "https://portswigger.net/web-security/request-smuggling/lab/basic-cl-te", badge: "PortSwigger"},
+                    {name: "Advanced Smuggling", url: "https://portswigger.net/web-security/request-smuggling/lab/obfuscating-te-cl", badge: "PortSwigger"},
+                    {name: "Smuggling Attack", url: "https://portswigger.net/web-security/request-smuggling/lab/perform-request-smuggling-attack", badge: "PortSwigger"}
+                 ]},
+                {day: 49, date: "Monday 27/10/2025", type: "S", topic: "Solving: HTTP Request Smuggling", 
+                 resources: [
+                    {name: "PortSwigger Smuggling Tests", url: "https://portswigger.net/web-security/all-labs#http-request-smuggling", icon: "bug"}
+                 ]},
+                {day: 50, date: "Tuesday 28/10/2025", type: "M", topic: "Web Cache Poisoning - Part 1", 
+                 resources: [
+                    {name: "OWASP Cache Poisoning", url: "https://owasp.org/www-community/attacks/Cache_Poisoning", icon: "shield-halved"},
+                    {name: "PortSwigger Cache Poisoning", url: "https://portswigger.net/web-security/web-cache-poisoning", icon: "bug"},
+                    {name: "HackerOne Cache Poisoning Reports", url: "https://hackerone.com/hacktivity?querystring=cache%20poisoning", icon: "bug"}
+                 ]},
+                {day: 51, date: "Wednesday 29/10/2025", type: "M", topic: "Web Cache Poisoning - Part 2", 
+                 resources: [
+                    {name: "PortSwigger Cache Labs", url: "https://portswigger.net/web-security/all-labs#web-cache-poisoning", icon: "bug"},
+                    {name: "Cache Poisoning Research", url: "https://portswigger.net/research/web-cache-poisoning", icon: "bug"}
+                 ]},
+                {day: 52, date: "Thursday 30/10/2025", type: "P", topic: "Practice: Web Cache Poisoning", 
+                 resources: [
+                    {name: "Basic Cache Poisoning", url: "https://portswigger.net/web-security/web-cache-poisoning/lab/basic", badge: "PortSwigger"},
+                    {name: "Cache Deception", url: "https://portswigger.net/web-security/web-cache-poisoning/lab-web-cache-deception", badge: "PortSwigger"},
+                    {name: "Advanced Cache Poisoning", url: "https://portswigger.net/web-security/web-cache-poisoning/lab/advanced", badge: "PortSwigger"}
+                 ]},
+                {day: 53, date: "Friday 31/10/2025", type: "S", topic: "Solving: Web Cache Poisoning", 
+                 resources: [
+                    {name: "PortSwigger Cache Tests", url: "https://portswigger.net/web-security/all-labs#web-cache-poisoning", icon: "bug"}
+                 ]},
+                {day: 54, date: "Saturday 1/11/2025", type: "M", topic: "HTTP Host Header Injection", 
+                 resources: [
+                    {name: "OWASP Host Header", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/17-Testing_for_Host_Header_Injection", icon: "shield-halved"},
+                    {name: "PortSwigger Host Header", url: "https://portswigger.net/web-security/host-header", icon: "bug"},
+                    {name: "Host Header Labs", url: "https://portswigger.net/web-security/all-labs#host-header-injection", icon: "bug"}
+                 ]},
+                {day: 55, date: "Sunday 2/11/2025", type: "P", topic: "Practice: HTTP Host Header Injection", 
+                 resources: [
+                    {name: "Basic Host Header", url: "https://portswigger.net/web-security/host-header/exploiting/lab-host-header-authentication-bypass", badge: "PortSwigger"},
+                    {name: "Host Header Web Cache", url: "https://portswigger.net/web-security/host-header/exploiting/lab-host-header-web-cache-poisoning", badge: "PortSwigger"},
+                    {name: "Host Header Routing", url: "https://portswigger.net/web-security/host-header/exploiting/lab-host-header-routing-bypass", badge: "PortSwigger"}
+                 ]},
+                {day: 56, date: "Monday 3/11/2025", type: "M", topic: "CRLF Injection & HTTP Response Splitting", 
+                 resources: [
+                    {name: "OWASP CRLF", url: "https://owasp.org/www-community/vulnerabilities/CRLF_Injection", icon: "shield-halved"},
+                    {name: "PortSwigger CRLF", url: "https://portswigger.net/web-security/crlf", icon: "bug"},
+                    {name: "CRLF Labs", url: "https://portswigger.net/web-security/all-labs#crlf-injection", icon: "bug"}
+                 ]},
+                {day: 57, date: "Tuesday 4/11/2025", type: "P", topic: "Practice: CRLF Injection", 
+                 resources: [
+                    {name: "Basic CRLF", url: "https://portswigger.net/web-security/crlf/lab-basic-crlf-injection", badge: "PortSwigger"},
+                    {name: "CRLF Request", url: "https://portswigger.net/web-security/crlf/lab-crlf-injection-into-log-handler", badge: "PortSwigger"}
+                 ]},
+                {day: 58, date: "Wednesday 5/11/2025", type: "M", topic: "Race Conditions", 
+                 resources: [
+                    {name: "OWASP Race Conditions", url: "https://owasp.org/www-community/attacks/Race_Condition", icon: "shield-halved"},
+                    {name: "PortSwigger Race Conditions", url: "https://portswigger.net/web-security/race-conditions", icon: "bug"},
+                    {name: "Race Condition Labs", url: "https://portswigger.net/web-security/all-labs#race-conditions", icon: "bug"}
+                 ]},
+                {day: 59, date: "Thursday 6/11/2025", type: "P", topic: "Practice: Race Conditions", 
+                 resources: [
+                    {name: "Race Condition Limit", url: "https://portswigger.net/web-security/race-conditions/lab-race-condition-account-registration", badge: "PortSwigger"},
+                    {name: "Race Condition Purchase", url: "https://portswigger.net/web-security/race-conditions/lab-race-condition-purchase", badge: "PortSwigger"}
+                 ]},
+                {day: 60, date: "Friday 7/11/2025", type: "M", topic: "Session Fixation", 
+                 resources: [
+                    {name: "OWASP Session Fixation", url: "https://owasp.org/www-community/attacks/Session_fixation", icon: "shield-halved"},
+                    {name: "PortSwigger Session Management", url: "https://portswigger.net/web-security/session-management", icon: "bug"},
+                    {name: "Session Fixation Tutorial", url: "https://book.hacktricks.xyz/pentesting-web/session-management", icon: "book"}
+                 ]},
+                {day: 61, date: "Saturday 8/11/2025", type: "P", topic: "Practice: Session Fixation", 
+                 resources: [
+                    {name: "Session Fixation Lab", url: "https://portswigger.net/web-security/authentication/other-mechanics/lab-basic-session-fixation", badge: "PortSwigger"}
+                 ]},
+                {day: 62, date: "Sunday 9/11/2025", type: "M", topic: "Subdomain Takeover", 
+                 resources: [
+                    {name: "OWASP Subdomain Takeover", url: "https://owasp.org/www-community/attacks/Subdomain_takeover", icon: "shield-halved"},
+                    {name: "Subdomain Takeover Guide", url: "https://github.com/EdOverflow/can-i-take-over-xyz", icon: "github"},
+                    {name: "Subdomain Takeover Tutorial", url: "https://book.hacktricks.xyz/pentesting-web/subdomain-takeover", icon: "book"}
+                 ]},
+                {day: 63, date: "Monday 10/11/2025", type: "P", topic: "Practice: Subdomain Takeover", 
+                 resources: [
+                    {name: "Subdomain Takeover Practice", url: "https://github.com/EdOverflow/can-i-take-over-xyz", icon: "github"},
+                    {name: "TryHackMe Subdomain Room", url: "https://tryhackme.com/room/subdomainenumeration", icon: "laptop-code"}
+                 ]},
+                {day: 64, date: "Tuesday 11/11/2025", type: "M", topic: "Prototype Pollution", 
+                 resources: [
+                    {name: "OWASP Prototype Pollution", url: "https://owasp.org/www-community/attacks/Prototype_Pollution", icon: "shield-halved"},
+                    {name: "PortSwigger Prototype Pollution", url: "https://portswigger.net/web-security/prototype-pollution", icon: "bug"},
+                    {name: "Prototype Pollution Labs", url: "https://portswigger.net/web-security/all-labs#prototype-pollution", icon: "bug"},
+                    {name: "Prototype Pollution Research", url: "https://github.com/BlackFan/client-side-prototype-pollution", icon: "github"}
+                 ]},
+                {day: 65, date: "Wednesday 12/11/2025", type: "P", topic: "Practice: Prototype Pollution", 
+                 resources: [
+                    {name: "Prototype Pollution Basic", url: "https://portswigger.net/web-security/prototype-pollution/lab-prototype-pollution-object-injection", badge: "PortSwigger"},
+                    {name: "Prototype Pollution DOM", url: "https://portswigger.net/web-security/prototype-pollution/lab-prototype-pollution-dom-xss", badge: "PortSwigger"}
+                 ]},
+                {day: 66, date: "Thursday 13/11/2025", type: "M", topic: "Web Cache Deception", 
+                 resources: [
+                    {name: "OWASP Web Cache Deception", url: "https://owasp.org/www-community/attacks/Web_Cache_Deception_Attack", icon: "shield-halved"},
+                    {name: "PortSwigger Web Cache Deception", url: "https://portswigger.net/web-security/web-cache-poisoning/targeting/users/web-cache-deception", icon: "bug"},
+                    {name: "Web Cache Deception Research", url: "https://omergil.blogspot.com/2017/02/web-cache-deception-attack.html", icon: "blog"}
+                 ]},
+                {day: 67, date: "Friday 14/11/2025", type: "P", topic: "Practice: Web Cache Deception", 
+                 resources: [
+                    {name: "Web Cache Deception Lab", url: "https://portswigger.net/web-security/web-cache-poisoning/lab-web-cache-deception", badge: "PortSwigger"}
+                 ]},
+                {day: 68, date: "Saturday 15/11/2025", type: "M", topic: "Mass Assignment", 
+                 resources: [
+                    {name: "OWASP Mass Assignment", url: "https://owasp.org/www-community/attacks/Mass_Assignment", icon: "shield-halved"},
+                    {name: "PortSwigger Mass Assignment", url: "https://portswigger.net/web-security/access-control/mass-assignment", icon: "bug"},
+                    {name: "Mass Assignment Labs", url: "https://portswigger.net/web-security/all-labs#mass-assignment", icon: "bug"}
+                 ]},
+                {day: 69, date: "Sunday 16/11/2025", type: "P", topic: "Practice: Mass Assignment", 
+                 resources: [
+                    {name: "Mass Assignment Lab", url: "https://portswigger.net/web-security/access-control/mass-assignment/lab-mass-assignment", badge: "PortSwigger"}
+                 ]},
+                {day: 70, date: "Monday 17/11/2025", type: "M", topic: "NoSQL Injection", 
+                 resources: [
+                    {name: "OWASP NoSQL Injection", url: "https://owasp.org/www-community/attacks/NoSQL_Injection", icon: "shield-halved"},
+                    {name: "NoSQL Injection Tutorial", url: "https://book.hacktricks.xyz/pentesting-web/nosql-injection", icon: "book"},
+                    {name: "NoSQL Injection Payloads", url: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection", icon: "github"}
+                 ]},
+                {day: 71, date: "Tuesday 18/11/2025", type: "P", topic: "Practice: NoSQL Injection", 
+                 resources: [
+                    {name: "NoSQL Injection Practice", url: "https://github.com/Charlie-belmer/vulnerable-node-app", icon: "github"},
+                    {name: "TryHackMe NoSQL Room", url: "https://tryhackme.com/room/nosqlinjectiontutorial", icon: "laptop-code"}
+                 ]},
+                {day: 72, date: "Wednesday 19/11/2025", type: "M", topic: "Path Traversal (Directory Traversal)", 
+                 resources: [
+                    {name: "OWASP Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal", icon: "shield-halved"},
+                    {name: "PortSwigger Path Traversal", url: "https://portswigger.net/web-security/file-path-traversal", icon: "bug"},
+                    {name: "Path Traversal Labs", url: "https://portswigger.net/web-security/all-labs#file-path-traversal", icon: "bug"}
+                 ]},
+                {day: 73, date: "Thursday 20/11/2025", type: "P", topic: "Practice: Path Traversal", 
+                 resources: [
+                    {name: "Path Traversal Basic", url: "https://portswigger.net/web-security/file-path-traversal/lab-simple", badge: "PortSwigger"},
+                    {name: "Path Traversal Sequences", url: "https://portswigger.net/web-security/file-path-traversal/lab-sequences-blocked-absolute-path-bypass", badge: "PortSwigger"},
+                    {name: "Path Traversal Validation", url: "https://portswigger.net/web-security/file-path-traversal/lab-validate-file-extension-null-byte-bypass", badge: "PortSwigger"}
+                 ]},
+                {day: 74, date: "Friday 21/11/2025", type: "M", topic: "RCE (Remote Code Execution) - Part 1", 
+                 resources: [
+                    {name: "OWASP RCE", url: "https://owasp.org/www-community/attacks/Code_Injection", icon: "shield-halved"},
+                    {name: "PortSwigger RCE", url: "https://portswigger.net/web-security/os-command-injection", icon: "bug"},
+                    {name: "RCE Labs", url: "https://portswigger.net/web-security/all-labs#os-command-injection", icon: "bug"}
+                 ]},
+                {day: 75, date: "Saturday 22/11/2025", type: "M", topic: "RCE (Remote Code Execution) - Part 2", 
+                 resources: [
+                    {name: "RCE Payloads", url: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection", icon: "github"},
+                    {name: "RCE Cheat Sheet", url: "https://portswigger.net/web-security/os-command-injection/cheat-sheet", icon: "bug"}
+                 ]},
+                {day: 76, date: "Sunday 23/11/2025", type: "P", topic: "Practice: RCE", 
+                 resources: [
+                    {name: "RCE Basic", url: "https://portswigger.net/web-security/os-command-injection/lab-simple", badge: "PortSwigger"},
+                    {name: "RCE Blind", url: "https://portswigger.net/web-security/os-command-injection/lab-blind", badge: "PortSwigger"},
+                    {name: "RCE Time Delay", url: "https://portswigger.net/web-security/os-command-injection/lab-blind-time-delays", badge: "PortSwigger"}
+                 ]},
+                {day: 77, date: "Monday 24/11/2025", type: "S", topic: "Solving: RCE", 
+                 resources: [
+                    {name: "PortSwigger RCE Tests", url: "https://portswigger.net/web-security/all-labs#os-command-injection", icon: "bug"}
+                 ]},
+                {day: 78, date: "Tuesday 25/11/2025", type: "R", topic: "Review: Advanced Vulnerabilities", 
+                 resources: [
+                    {name: "OWASP Cheat Sheets", url: "https://cheatsheetseries.owasp.org/", icon: "shield-halved"},
+                    {name: "PortSwigger Web Security", url: "https://portswigger.net/web-security", icon: "bug"}
+                 ]},
+                {day: 79, date: "Wednesday 26/11/2025", type: "M", topic: "Advanced Techniques: API Testing", 
+                 resources: [
+                    {name: "OWASP API Security Top 10", url: "https://owasp.org/www-project-api-security/", icon: "shield-halved"},
+                    {name: "PortSwigger API Security", url: "https://portswigger.net/web-security/api", icon: "bug"},
+                    {name: "MDN REST APIs", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview", icon: "firefox"}
+                 ]},
+                {day: 80, date: "Thursday 27/11/2025", type: "M", topic: "Advanced Techniques: GraphQL", 
+                 resources: [
+                    {name: "HackTricks GraphQL", url: "https://book.hacktricks.xyz/pentesting/pentesting-web/graphql", icon: "book"},
+                    {name: "PortSwigger GraphQL", url: "https://portswigger.net/web-security/graphql", icon: "bug"},
+                    {name: "GraphQL Official Docs", url: "https://graphql.org/learn/", icon: "book"}
+                 ]},
+                {day: 81, date: "Friday 28/11/2025", type: "P", topic: "Practice: APIs & GraphQL", 
+                 resources: [
+                    {name: "API Testing", url: "https://portswigger.net/web-security/api-testing", badge: "PortSwigger"},
+                    {name: "GraphQL Testing", url: "https://portswigger.net/web-security/graphql", badge: "PortSwigger"},
+                    {name: "GraphQL Batching", url: "https://portswigger.net/web-security/graphql/batching-attacks", badge: "PortSwigger"}
+                 ]},
+                {day: 82, date: "Saturday 29/11/2025", type: "S", topic: "Solving: APIs & GraphQL", 
+                 resources: [
+                    {name: "PortSwigger API Tests", url: "https://portswigger.net/web-security/all-labs#api-security", icon: "bug"}
+                 ]},
+                {day: 83, date: "Sunday 30/11/2025", type: "M", topic: "Advanced Techniques: WebSockets", 
+                 resources: [
+                    {name: "PortSwigger WebSockets", url: "https://portswigger.net/web-security/websockets", icon: "bug"},
+                    {name: "OWASP WebSockets", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/11-Client_Side_Testing/10-Testing_WebSockets", icon: "shield-halved"},
+                    {name: "MDN WebSockets", url: "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API", icon: "firefox"}
+                 ]},
+                {day: 84, date: "Monday 1/12/2025", type: "M", topic: "Advanced Techniques: JWT", 
+                 resources: [
+                    {name: "PortSwigger JWT", url: "https://portswigger.net/web-security/jwt", icon: "bug"},
+                    {name: "JWT.io", url: "https://jwt.io/", icon: "lock"},
+                    {name: "MDN JWT", url: "https://developer.mozilla.org/en-US/docs/Web/JSON/JSON_Web_Tokens", icon: "firefox"}
+                 ]},
+                {day: 85, date: "Tuesday 2/12/2025", type: "P", topic: "Practice: WebSockets & JWT", 
+                 resources: [
+                    {name: "WebSockets Manipulation", url: "https://portswigger.net/web-security/websockets", badge: "PortSwigger"},
+                    {name: "JWT Vulnerabilities", url: "https://portswigger.net/web-security/jwt", badge: "PortSwigger"},
+                    {name: "JWT Alg None", url: "https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-flawed-signature-verification", badge: "PortSwigger"}
+                 ]},
+                {day: 86, date: "Wednesday 3/12/2025", type: "S", topic: "Solving: WebSockets & JWT", 
+                 resources: [
+                    {name: "PortSwigger WebSockets Tests", url: "https://portswigger.net/web-security/all-labs#websocket-security", icon: "bug"}
+                 ]},
+                {day: 87, date: "Thursday 4/12/2025", type: "M", topic: "Advanced Techniques: OAuth 2.0", 
+                 resources: [
+                    {name: "OAuth 2.0 Security", url: "https://oauth.net/2/", icon: "lock"},
+                    {name: "PortSwigger OAuth", url: "https://portswigger.net/web-security/oauth", icon: "bug"},
+                    {name: "MDN OAuth", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#oauth", icon: "firefox"}
+                 ]},
+                {day: 88, date: "Friday 5/12/2025", type: "M", topic: "Advanced Techniques: SAML", 
+                 resources: [
+                    {name: "SAML Security", url: "https://www.samltool.com/security.php", icon: "lock"},
+                    {name: "PortSwigger SAML", url: "https://portswigger.net/web-security/saml", icon: "bug"},
+                    {name: "SAML Tutorial", url: "https://developer.mozilla.org/en-US/docs/Web/Security/SAML", icon: "firefox"}
+                 ]},
+                {day: 89, date: "Saturday 6/12/2025", type: "P", topic: "Practice: OAuth & SAML", 
+                 resources: [
+                    {name: "OAuth Flaws", url: "https://portswigger.net/web-security/oauth", badge: "PortSwigger"},
+                    {name: "SAML Flaws", url: "https://portswigger.net/web-security/saml", badge: "PortSwigger"},
+                    {name: "OAuth Token Hijack", url: "https://portswigger.net/web-security/oauth/lab-oauth-authentication-bypass-via-oauth-implicit-flow", badge: "PortSwigger"}
+                 ]},
+                {day: 90, date: "Sunday 7/12/2025", type: "S", topic: "Solving: OAuth & SAML", 
+                 resources: [
+                    {name: "PortSwigger OAuth Tests", url: "https://portswigger.net/web-security/all-labs#oauth-2.0", icon: "bug"}
+                 ]},
+                {day: 91, date: "Monday 8/12/2025", type: "R", topic: "Review: Advanced Techniques", 
+                 resources: [
+                    {name: "OWASP Cheat Sheets", url: "https://cheatsheetseries.owasp.org/", icon: "shield-halved"},
+                    {name: "PortSwigger Web Security", url: "https://portswigger.net/web-security", icon: "bug"}
+                 ]},
+                {day: 92, date: "Tuesday 9/12/2025", type: "M", topic: "Penetration Testing Methodology - Part 1", 
+                 resources: [
+                    {name: "PTES", url: "http://www.pentest-standard.org/", icon: "book"},
+                    {name: "OWASP Testing Guide", url: "https://owasp.org/www-project-web-security-testing-guide/", icon: "shield-halved"},
+                    {name: "MDN Security", url: "https://developer.mozilla.org/en-US/docs/Web/Security", icon: "firefox"}
+                 ]},
+                {day: 93, date: "Wednesday 10/12/2025", type: "M", topic: "Penetration Testing Methodology - Part 2", 
+                 resources: [
+                    {name: "Web Application Hacker's Handbook", url: "https://www.amazon.com/Web-Application-Hackers-Handbook-Exploiting/dp/1118026470", icon: "book"},
+                    {name: "PTES Technical Guide", url: "http://www.pentest-standard.org/index.php/PTES_Technical_Guidelines", icon: "book"}
+                 ]},
+                {day: 94, date: "Thursday 11/12/2025", type: "P", topic: "Practice: Complete Methodology", 
+                 resources: [
+                    {name: "TryHackMe Web Application Pentesting Room", url: "https://tryhackme.com/room/webapppentesting", icon: "laptop-code"},
+                    {name: "Pentesting Practice", url: "https://www.hackthebox.com/", icon: "cube"}
+                 ]},
+                {day: 95, date: "Friday 12/12/2025", type: "S", topic: "Solving: Complete Methodology", 
+                 resources: [
+                    {name: "TryHackMe Test", url: "https://tryhackme.com/", icon: "laptop-code"}
+                 ]},
+                {day: 96, date: "Saturday 13/12/2025", type: "M", topic: "Report Writing - Part 1", 
+                 resources: [
+                    {name: "OWASP Testing Guide - Reporting", url: "https://owasp.org/www-project-web-security-testing-guide/latest/8-Reporting/", icon: "shield-halved"},
+                    {name: "HackerOne Report Guidelines", url: "https://www.hackerone.com/blog/How-To-Write-A-Good-Bug-Bounty-Report", icon: "bug"}
+                 ]},
+                {day: 97, date: "Sunday 14/12/2025", type: "M", topic: "Report Writing - Part 2", 
+                 resources: [
+                    {name: "Pentest Reports Templates", url: "https://www.offensive-security.com/reports/sample-penetration-testing-report.pdf", icon: "file-pdf"},
+                    {name: "Report Examples", url: "https://github.com/hmaverickadams/TTPentestGuide/blob/master/Reporting/ExampleReports.md", icon: "github"}
+                 ]},
+                {day: 98, date: "Monday 15/12/2025", type: "P", topic: "Practice: Writing a Report", 
+                 resources: [
+                    {name: "Report Template", url: "https://www.offensive-security.com/reports/sample-penetration-testing-report.pdf", icon: "file-pdf"},
+                    {name: "HackerOne Hacktivity", url: "https://hackerone.com/hacktivity", icon: "bug"}
+                 ]},
+                {day: 99, date: "Tuesday 16/12/2025", type: "S", topic: "Solving: Report Review", 
+                 resources: [
+                    {name: "Report Review Guidelines", url: "https://www.pcisecuritystandards.org/documents/Penetration-Testing-Guidance-v1_1.pdf", icon: "file-pdf"}
+                 ]},
+                {day: 100, date: "Wednesday 17/12/2025", type: "S", topic: "Test Day", 
+                 resources: [
+                    {name: "OSWA Exam Info", url: "https://www.offensive-security.com/", icon: "certificate"},
+                    {name: "Exam Tips", url: "https://www.offensive-security.com/offensive-security-certification-exams-guide/", icon: "certificate"}
+                 ]}
+            ];
+
+            const tableBody = document.querySelector('#training-plan tbody');
+            let completedDays = 0;
+            
+            // Load saved progress from localStorage
+            const savedProgress = JSON.parse(localStorage.getItem('trainingPlanProgress')) || {};
+            
+            // Function to get icon HTML based on resource type
+            function getIconHtml(iconName) {
+                let iconHtml = '';
+                switch(iconName) {
+                    case 'youtube': iconHtml = '<i class="fab fa-youtube resource-icon" style="color: #ff0000;"></i>'; break;
+                    case 'bug': iconHtml = '<i class="fas fa-bug resource-icon" style="color: #ff6633;"></i>'; break;
+                    case 'shield-alt': iconHtml = '<i class="fas fa-shield-alt resource-icon" style="color: #000;"></i>'; break;
+                    case 'firefox': iconHtml = '<i class="fab fa-firefox resource-icon" style="color: #e66000;"></i>'; break;
+                    case 'book-open': iconHtml = '<i class="fas fa-book-open resource-icon" style="color: #3498db;"></i>'; break;
+                    case 'graduation-cap': iconHtml = '<i class="fas fa-graduation-cap resource-icon" style="color: #27ae60;"></i>'; break;
+                    case 'dollar-sign': iconHtml = '<i class="fas fa-dollar-sign resource-icon" style="color: #9b59b6;"></i>'; break;
+                    case 'github': iconHtml = '<i class="fab fa-github resource-icon" style="color: #333;"></i>'; break;
+                    case 'cube': iconHtml = '<i class="fas fa-cube resource-icon" style="color: #9fef00;"></i>'; break;
+                    case 'linux': iconHtml = '<i class="fab fa-linux resource-icon" style="color: #000;"></i>'; break;
+                    case 'blog': iconHtml = '<i class="fas fa-blog resource-icon" style="color: #ff5722;"></i>'; break;
+                    case 'database': iconHtml = '<i class="fas fa-database resource-icon" style="color: #3498db;"></i>'; break;
+                    case 'file-alt': iconHtml = '<i class="fas fa-file-alt resource-icon" style="color: #795548;"></i>'; break;
+                    case 'shield': iconHtml = '<i class="fas fa-shield resource-icon" style="color: #ff9800;"></i>'; break;
+                    case 'fingerprint': iconHtml = '<i class="fas fa-fingerprint resource-icon" style="color: #673ab7;"></i>'; break;
+                    case 'terminal': iconHtml = '<i class="fas fa-terminal resource-icon" style="color: #4caf50;"></i>'; break;
+                    case 'code': iconHtml = '<i class="fas fa-code resource-icon" style="color: #2196f3;"></i>'; break;
+                    case 'user-shield': iconHtml = '<i class="fas fa-user-shield resource-icon" style="color: #607d8b;"></i>'; break;
+                    case 'file-pdf': iconHtml = '<i class="fas fa-file-pdf resource-icon" style="color: #f44336;"></i>'; break;
+                    case 'exclamation-triangle': iconHtml = '<i class="fas fa-exclamation-triangle resource-icon" style="color: #ffeb3b;"></i>'; break;
+                    case 'certificate': iconHtml = '<i class="fas fa-certificate resource-icon" style="color: #ffc107;"></i>'; break;
+                    case 'shield-halved': iconHtml = '<i class="fas fa-shield-halved resource-icon" style="color: #000;"></i>'; break;
+                    case 'laptop-code': iconHtml = '<i class="fas fa-laptop-code resource-icon" style="color: #3498db;"></i>'; break;
+                    case 'book': iconHtml = '<i class="fas fa-book resource-icon" style="color: #795548;"></i>'; break;
+                    case 'lock': iconHtml = '<i class="fas fa-lock resource-icon" style="color: #333;"></i>'; break;
+                    default: iconHtml = '<i class="fas fa-link resource-icon" style="color: #3498db;"></i>'; break;
+                }
+                return iconHtml;
+            }
+            
+            // Fill the table with data
+            planData.forEach(day => {
+                const isCompleted = savedProgress[day.day] || false;
+                if (isCompleted) completedDays++;
+                
+                const row = document.createElement('tr');
+                row.classList.add(`type-${day.type}`);
+                if (isCompleted) row.classList.add('completed');
+                
+                // Create resource links
+                const resourcesHtml = day.resources.map(resource => {
+                    let iconHtml = '';
+                    if (resource.icon) {
+                        iconHtml = getIconHtml(resource.icon);
+                    }
+                    
+                    if (resource.badge) {
+                        return `<a href="${resource.url}" target="_blank" class="resource-link">${iconHtml}${resource.name} <span class="portswigger-badge">${resource.badge}</span></a>`;
+                    } else {
+                        return `<a href="${resource.url}" target="_blank" class="resource-link">${iconHtml}${resource.name}</a>`;
+                    }
+                }).join(' ');
+                
+                row.innerHTML = `
+                    <td>
+                        <input type="checkbox" class="day-checkbox" data-day="${day.day}" ${isCompleted ? 'checked' : ''}>
+                    </td>
+                    <td>${day.day}</td>
+                    <td>${day.date}</td>
+                    <td>${day.type}</td>
+                    <td>${day.topic}</td>
+                    <td>${resourcesHtml}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Update progress display
+            function updateProgressDisplay() {
+                const percent = (completedDays / 100) * 100;
+                document.getElementById('progress-fill').style.width = `${percent}%`;
+                document.getElementById('progress-percent').textContent = `${percent.toFixed(1)}%`;
+                document.getElementById('completed-days').textContent = completedDays;
+                document.getElementById('remaining-days').textContent = 100 - completedDays;
+                document.getElementById('completion-rate').textContent = `${percent.toFixed(1)}%`;
+                
+                // Save progress to localStorage
+                const checkboxes = document.querySelectorAll('.day-checkbox');
+                const progress = {};
+                checkboxes.forEach(checkbox => {
+                    progress[checkbox.dataset.day] = checkbox.checked;
+                });
+                localStorage.setItem('trainingPlanProgress', JSON.stringify(progress));
+            }
+            
+            // Set up checkbox event listeners
+            document.querySelectorAll('.day-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const row = this.closest('tr');
+                    if (this.checked) {
+                        row.classList.add('completed');
+                        completedDays++;
+                    } else {
+                        row.classList.remove('completed');
+                        completedDays--;
+                    }
+                    updateProgressDisplay();
+                });
+            });
+            
+            // Set up filter buttons
+            const filterButtons = document.querySelectorAll('.filter-buttons button');
+            const allRows = document.querySelectorAll('#training-plan tbody tr');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.id.replace('btn-', '');
+                    
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to the clicked button
+                    button.classList.add('active');
+                    
+                    // Apply the filter
+                    allRows.forEach(row => {
+                        if (filter === 'all') {
+                            row.style.display = '';
+                        } else if (filter === 'completed') {
+                            if (row.classList.contains('completed')) {
+                                row.style.display = '';
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        } else {
+                            if (row.classList.contains(`type-${filter}`)) {
+                                row.style.display = '';
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+            
+            // Print button
+            document.getElementById('btn-print').addEventListener('click', () => {
+                window.print();
+            });
+            
+            // Initial progress update
+            updateProgressDisplay();
+        });
+    </script>
+</body>
+</html>
