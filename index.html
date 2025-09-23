@@ -1,1375 +1,1938 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Application Penetration Testing - 100 Days Plan</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>AwareX - Cyber Psychology Assessment Platform MVP</title>
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --gray: #95a5a6;
-            --completed: #27ae60;
+            --primary-color: #1a365d;
+            --secondary-color: #2d5a87;
+            --accent-color: #e53e3e;
+            --success-color: #e71b00;
+            --warning-color: #d69e2e;
+            --info-color: #3182ce;
+            --dark-color: #2d3748;
+            --light-color: #f7fafc;
+            --danger-color: #e53e3e;
+            --stress-color: #e53e3e;
+            --calm-color: #38a169;
         }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
+
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            font-family: 'Cairo', sans-serif;
             line-height: 1.6;
-            padding-bottom: 2rem;
+            color: var(--primary-color);
         }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+
+        .hero-section {
+            background: linear-gradient(135deg, #1a365d 0%, #2d5a87 50%, #3182ce 100%);
             color: white;
-            padding: 2rem;
-            text-align: center;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 120px 0;
             position: relative;
-        }
-        
-        .progress-circle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        h2 {
-            font-size: 1.8rem;
-            margin: 1.5rem 0;
-            color: var(--primary);
-            border-bottom: 2px solid var(--secondary);
-            padding-bottom: 0.5rem;
-        }
-        
-        h3 {
-            font-size: 1.4rem;
-            margin: 1.2rem 0;
-            color: var(--secondary);
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .info-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .info-card h3 {
-            margin-top: 0;
-            color: var(--primary);
-        }
-        
-        .legend {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .color-box {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-        }
-        
-        .color-theory { background-color: #3498db; }
-        .color-practice { background-color: #2ecc71; }
-        .color-solve { background-color: #f39c12; }
-        .color-review { background-color: #9b59b6; }
-        
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .filter-buttons {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        button {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            background-color: var(--secondary);
-            color: white;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: var(--primary);
-        }
-        
-        button.active {
-            background-color: var(--accent);
-        }
-        
-        .progress-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .progress-bar {
-            height: 20px;
-            background-color: #eee;
-            border-radius: 10px;
             overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
-            border-radius: 10px;
-            width: 0%;
-            transition: width 0.5s ease-in-out;
-        }
-        
-        .progress-days {
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            color: var(--dark);
-            margin-top: 0.5rem;
-        }
-        
-        .stats {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .stat-item {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 0.5rem 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            min-width: 100px;
         }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 2rem;
-            background: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
-        th {
-            background-color: var(--primary);
-            color: white;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-        }
-        
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .type-M { background-color: #e7f4ff; }
-        .type-P { background-color: #eaffea; }
-        .type-S { background-color: #fff4e6; }
-        .type-R { background-color: #f5eaff; }
-        
-        .completed {
-            position: relative;
-        }
-        
-        .completed::after {
+
+        .hero-section::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 5px;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
             height: 100%;
-            background-color: var(--completed);
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
-        
-        .day-checkbox {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            accent-color: var(--success);
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
-        
-        .resources-column {
-            max-width: 400px;
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
         }
-        
-        .resource-link {
-            display: inline-block;
-            margin: 0.2rem 0.5rem 0.2rem 0;
-            padding: 0.2rem 0.5rem;
-            background: #e8f4fc;
-            border-radius: 4px;
-            color: var(--secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: background 0.3s;
-        }
-        
-        .resource-link:hover {
-            background: #d1e9fa;
-            text-decoration: underline;
-        }
-        
-        .portswigger-badge {
-            background: #FF6633;
+
+        .ai-demo {
+            background: linear-gradient(135deg, #2d5a87 0%, #3182ce 100%);
             color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-left: 0.5rem;
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(45, 90, 135, 0.3);
+            position: relative;
+            overflow: hidden;
         }
-        
-        .sources {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+
+        .ai-demo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
         }
-        
-        .sources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
-        }
-        
-        .source-card {
-            padding: 1rem;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .source-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .source-card h4 {
-            margin-top: 0;
-            color: var(--primary);
-        }
-        
-        .source-card a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        .source-card a:hover {
-            text-decoration: underline;
-        }
-        
-        .source-description {
-            color: var(--dark);
-            margin: 0.5rem 0;
-            font-size: 0.9rem;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1rem;
-            color: var(--gray);
-        }
-        
-        @media print {
-            body {
-                background: white;
-                color: black;
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
             }
-            
-            header, .info-grid, .legend, .controls, .progress-section, .sources, footer {
-                display: none;
-            }
-            
-            table {
-                box-shadow: none;
-                border: 1px solid #ccc;
-            }
-            
-            th {
-                background-color: #f0f0f0;
-                color: black;
-            }
-            
-            .type-M, .type-P, .type-S, .type-R {
-                background-color: #f9f9f9;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            th, td {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .resource-link {
-                font-size: 0.8rem;
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
             }
         }
 
-        .resource-icon {
-            margin-right: 5px;
-            width: 16px;
+        .psychology-test {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+        }
+
+        .test-question {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-ai {
+            background: linear-gradient(135deg, #2d5a87, #3182ce);
+            border: none;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ai::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-ai:hover::before {
+            left: 100%;
+        }
+
+        .btn-ai:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(45, 90, 135, 0.5);
+            color: white;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--secondary-color);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            padding: 0 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -30px;
+            border-left-color: white;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -30px;
+            border-right-color: white;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, var(--success-color), #ff0000);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
             text-align: center;
+            margin: 1rem 0;
+        }
+
+        .stats-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .chatbot-demo {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .chat-message {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-message {
+            background: var(--secondary-color);
+            color: white;
+            margin-left: 20%;
+        }
+
+        .bot-message {
+            background: white;
+            margin-right: 20%;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #2d5a87, #3182ce);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--info-color));
+            border-radius: 3px;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .tech-stack {
+            background: linear-gradient(145deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(45, 90, 135, 0.1);
+        }
+
+        .tech-item {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(45, 90, 135, 0.2);
+            border-color: var(--secondary-color);
+        }
+
+        /* Psychological Pressure Simulation Styles */
+        .pressure-test {
+            position: relative;
+            background: linear-gradient(145deg, #1a202c 0%, #2d3748 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            color: white;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .pressure-test::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 49%, rgba(229, 62, 62, 0.05) 50%, transparent 51%);
+            animation: stressVibrate 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes stressVibrate {
+
+            0%,
+            100% {
+                transform: translateX(0px) translateY(0px);
+            }
+
+            10% {
+                transform: translateX(2px) translateY(-2px);
+            }
+
+            20% {
+                transform: translateX(-2px) translateY(2px);
+            }
+
+            30% {
+                transform: translateX(2px) translateY(2px);
+            }
+
+            40% {
+                transform: translateX(-2px) translateY(-2px);
+            }
+
+            50% {
+                transform: translateX(1px) translateY(-1px);
+            }
+
+            60% {
+                transform: translateX(-1px) translateY(1px);
+            }
+
+            70% {
+                transform: translateX(2px) translateY(1px);
+            }
+
+            80% {
+                transform: translateX(-1px) translateY(-2px);
+            }
+
+            90% {
+                transform: translateX(1px) translateY(2px);
+            }
+        }
+
+        .stress-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--stress-color);
+            animation: stressPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes stressPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.6;
+            }
+        }
+
+        .timer {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--danger-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: timerBlink 2s ease-in-out infinite;
+        }
+
+        @keyframes timerBlink {
+
+            0%,
+            80% {
+                opacity: 1;
+            }
+
+            81%,
+            100% {
+                opacity: 0.7;
+            }
+        }
+
+        .pressure-question {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pressure-question:hover {
+            border-color: var(--stress-color);
+            box-shadow: 0 0 20px rgba(229, 62, 62, 0.3);
+        }
+
+        .pressure-question.urgent {
+            border-color: var(--stress-color);
+            background: rgba(229, 62, 62, 0.05);
+            animation: urgentGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes urgentGlow {
+            0% {
+                box-shadow: 0 0 5px rgba(229, 62, 62, 0.2);
+            }
+
+            100% {
+                box-shadow: 0 0 15px rgba(229, 62, 62, 0.4);
+            }
+        }
+
+        .pressure-button {
+            background: linear-gradient(135deg, var(--danger-color), #c53030);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pressure-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 3px 10px rgba(229, 62, 62, 0.3);
+        }
+
+        .pressure-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.8s;
+        }
+
+        .pressure-button:hover::before {
+            left: 100%;
+        }
+
+        .calm-button {
+            background: linear-gradient(135deg, var(--danger-color), #c53030);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .calm-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 3px 10px rgba(229, 62, 62, 0.3);
+        }
+
+        .warning-button {
+            background: linear-gradient(135deg, var(--warning-color), #b7791f);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .warning-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 3px 10px rgba(214, 158, 46, 0.3);
+        }
+
+        .stress-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(229, 62, 62, 0.05);
+            z-index: 9999;
+            pointer-events: none;
+            animation: stressFlash 0.3s ease-in-out;
+        }
+
+        @keyframes stressFlash {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .siren-sound {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: var(--danger-color);
+            animation: sirenBlink 2s ease-in-out infinite;
+        }
+
+        @keyframes sirenBlink {
+
+            0%,
+            80% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            81%,
+            100% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        .pressure-level {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .psychology-insight {
+            background: rgba(56, 161, 105, 0.1);
+            border-left: 4px solid var(--calm-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .psychology-insight h6 {
+            color: var(--calm-color);
+            font-weight: 600;
+        }
+
+        /* Calming Alert Styles */
+        .calming-alert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(56, 161, 105, 0.95) 0%, rgba(47, 133, 90, 0.95) 100%);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .calming-alert-content {
+            background: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+            border-radius: 25px;
+            padding: 0;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 2rem;
+            animation: slideUp 0.8s ease-out;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .calming-alert-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('1.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            border-radius: 25px;
+        }
+
+        .calming-alert-content::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(56, 161, 105, 0.7), rgba(47, 133, 90, 0.8));
+            z-index: -1;
+            border-radius: 25px;
+        }
+
+        .calming-content-wrapper {
+            padding: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .calming-alert h2 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .calming-alert p {
+            color: white;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .calming-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .calming-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+            border-radius: 4px;
+            animation: progressFill 30s linear;
+        }
+
+        .calming-timer {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes progressFill {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>Web Application Penetration Testing Training Plan</h1>
-            <p>Duration: 100 Days | From Tuesday, September 9, 2025 to Wednesday, December 17, 2025</p>
-            <div class="progress-circle">
-                <span id="progress-percent">0%</span>
-            </div>
-        </header>
-        
-        <div class="info-grid">
-            <div class="info-card">
-                <h3>General Information</h3>
-                <p><strong>Goal:</strong> Preparation for Web Application Penetration Testing (such as OSWA or similar)</p>
-                <p><strong>Start Date:</strong> Tuesday, September 9, 2025</p>
-                <p><strong>End Date:</strong> Wednesday, December 17, 2025</p>
-            </div>
-            
-            <div class="info-card">
-                <h3>Plan Structure</h3>
-                <p><strong>Study Days (M):</strong> Theoretical study and video watching</p>
-                <p><strong>Practice Days (P):</strong> Hands-on practice on training labs</p>
-                <p><strong>Solving Days (S):</strong> Solving tests and questions</p>
-                <p><strong>Review Days (R):</strong> Comprehensive material review</p>
-            </div>
-            
-            <div class="info-card">
-                <h3>Progress Tracking</h3>
-                <p>Check each day as you complete it</p>
-                <p>Use filter buttons to view specific day types</p>
-                <p>You can print the table using the print button</p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="bi bi-shield-check me-2"></i>
+                AwareX
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#demo">Interactive Demo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tech">Technology</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#timeline">Timeline</a>
+                    </li>
+                </ul>
             </div>
         </div>
-        
-        <div class="legend">
-            <div class="legend-item">
-                <div class="color-box color-theory"></div>
-                <span>Study Days (M)</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-box color-practice"></div>
-                <span>Practice Days (P)</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-box color-solve"></div>
-                <span>Solving Days (S)</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-box color-review"></div>
-                <span>Review Days (R)</span>
-            </div>
-            <div class="legend-item">
-                <i class="fas fa-check-circle" style="color: var(--completed);"></i>
-                <span>Completed Days</span>
-            </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="floating-elements">
+            <div class="floating-element" style="top: 10%; left: 10%; font-size: 2rem;">🔐</div>
+            <div class="floating-element" style="top: 20%; right: 15%; font-size: 1.5rem;">🧠</div>
+            <div class="floating-element" style="bottom: 20%; left: 20%; font-size: 1.8rem;">🛡️</div>
+            <div class="floating-element" style="bottom: 30%; right: 10%; font-size: 1.2rem;">⚡</div>
         </div>
-        
-        <div class="progress-section">
-            <h3>Plan Progress</h3>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-            <div class="progress-days">
-                <span>Day 1</span>
-                <span>Day 100</span>
-            </div>
-            
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-value" id="completed-days">0</span>
-                    <span class="stat-label">Completed</span>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <h1 class="display-3 fw-bold mb-4">
+                        AwareX<br>
+                        <span class="text-warning">Cyber Psychology Assessment Platform</span>
+                    </h1>
+                    <p class="lead mb-4 fs-5">
+                        Revolutionary AI-powered platform that combines behavioral psychology with cybersecurity to
+                        enhance digital awareness through advanced psychological assessments and intelligent analytics
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <button class="btn btn-ai btn-lg" onclick="scrollToSection('demo')">
+                            <i class="bi bi-play-circle me-2"></i>
+                            Try Demo Now
+                        </button>
+                        <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('features')">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Learn More
+                        </button>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="remaining-days">100</span>
-                    <span class="stat-label">Remaining</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="completion-rate">0%</span>
-                    <span class="stat-label">Completion</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="controls">
-            <div class="filter-buttons">
-                <button id="btn-all" class="active">Show All</button>
-                <button id="btn-M">Study Days (M)</button>
-                <button id="btn-P">Practice Days (P)</button>
-                <button id="btn-S">Solving Days (S)</button>
-                <button id="btn-R">Review Days (R)</button>
-                <button id="btn-completed">Completed Days</button>
-            </div>
-            <button id="btn-print">Print Table</button>
-        </div>
-        
-        <h2>Daily Plan with PortSwigger Labs</h2>
-        <table id="training-plan">
-            <thead>
-                <tr>
-                    <th width="50px">Done</th>
-                    <th width="60px">Day</th>
-                    <th width="120px">Date</th>
-                    <th width="80px">Type</th>
-                    <th>Topic</th>
-                    <th class="resources-column">Learning Resources & Labs</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Will be filled by JavaScript -->
-            </tbody>
-        </table>
-        
-        <h2>Learning Resources</h2>
-        <div class="sources">
-            <div class="sources-grid">
-                <div class="source-card">
-                    <h4>YouTube Channels</h4>
-                    <p><a href="https://www.youtube.com/c/NetworkChuck" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> NetworkChuck</a> - Ethical hacking and cybersecurity</p>
-                    <p><a href="https://www.youtube.com/c/JohnHammond010" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> John Hammond</a> - Cybersecurity education</p>
-                    <p><a href="https://www.youtube.com/c/LiveOverflow" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> LiveOverflow</a> - Security concepts and CTF walkthroughs</p>
-                    <p><a href="https://www.youtube.com/c/ippsec" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> IppSec</a> - HackTheBox walkthroughs</p>
-                    <p><a href="https://www.youtube.com/c/TheCyberMentor" target="_blank"><i class="fa-brands fa-youtube resource-icon" style="color: #ff0000;"></i> The Cyber Mentor</a> - Penetration testing tutorials</p>
-                </div>
-                <div class="source-card">
-                    <h4>Practice Labs & Platforms</h4>
-                    <p><a href="https://portswigger.net/web-security" target="_blank"><i class="fa-solid fa-bug resource-icon" style="color: #ff6633;"></i> PortSwigger Web Security Academy</a> - Free web security training</p>
-                    <p><a href="https://www.hackthebox.com/" target="_blank"><i class="fa-solid fa-cube resource-icon" style="color: #9fef00;"></i> HackTheBox</a> - Penetration testing labs</p>
-                    <p><a href="https://tryhackme.com/" target="_blank"><i class="fa-solid fa-laptop-code resource-icon" style="color: #3498db;"></i> TryHackMe</a> - Learning cybersecurity</p>
-                    <p><a href="https://www.vulnhub.com/" target="_blank"><i class="fa-solid fa-server resource-icon" style="color: #333;"></i> VulnHub</a> - Vulnerable VMs for practice</p>
-                    <p><a href="https://overthewire.org/wargames/" target="_blank"><i class="fa-solid fa-gamepad resource-icon" style="color: #9b59b6;"></i> OverTheWire</a> - Wargames for learning security concepts</p>
-                </div>
-                <div class="source-card">
-                    <h4>Vulnerable Web Applications</h4>
-                    <p><a href="http://www.dvwa.co.uk/" target="_blank"><i class="fa-solid fa-bug resource-icon" style="color: #ff6633;"></i> DVWA</a> - Damn Vulnerable Web Application</p>
-                    <p><a href="https://owasp.org/www-project-juice-shop/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> OWASP Juice Shop</a> - Modern vulnerable web app</p>
-                    <p><a href="http://www.itsecgames.com/" target="_blank"><i class="fa-solid fa-bug resource-icon" style="color: #ff6633;"></i> bWAPP</a> - Buggy Web Application</p>
-                    <p><a href="https://owasp.org/www-project-webgoat/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> WebGoat</a> - OWASP WebGoat</p>
-                    <p><a href="https://github.com/WebGoat/WebGoat" target="_blank"><i class="fa-brands fa-github resource-icon" style="color: #333;"></i> WebGoat GitHub</a> - Source code</p>
-                </div>
-                <div class="source-card">
-                    <h4>Documentation & References</h4>
-                    <p><a href="https://owasp.org/www-project-top-ten/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> OWASP Top 10</a> - Web application security risks</p>
-                    <p><a href="https://owasp.org/www-project-web-security-testing-guide/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> OWASP Testing Guide</a> - Web security testing</p>
-                    <p><a href="https://book.hacktricks.xyz/" target="_blank"><i class="fa-solid fa-book resource-icon" style="color: #795548;"></i> HackTricks</a> - Pentesting tricks</p>
-                    <p><a href="https://pentesterlab.com/" target="_blank"><i class="fa-solid fa-certificate resource-icon" style="color: #ffc107;"></i> PentesterLab</a> - Exercises and badges</p>
-                    <p><a href="https://cheatsheetseries.owasp.org/" target="_blank"><i class="fa-solid fa-shield-halved resource-icon" style="color: #000;"></i> OWASP Cheat Sheets</a> - Security cheat sheets</p>
+                <div class="col-lg-6 text-center">
+                    <div class="ai-demo">
+                        <h3><i class="bi bi-robot me-2"></i>AI Assistant Demo</h3>
+                        <div class="chatbot-demo">
+                            <div class="chat-message bot-message">
+                                <strong>AwareX AI:</strong> Welcome! I'm your intelligent cybersecurity awareness
+                                assistant. Ready to start your psychological assessment?
+                            </div>
+                            <div class="chat-message user-message">
+                                <strong>You:</strong> Yes, I want to know my cyber awareness level
+                            </div>
+                            <div class="chat-message bot-message">
+                                <strong>AwareX AI:</strong> Excellent! Let's start with a simple scenario: You receive
+                                an urgent email from "your bank" requesting immediate data update. What would you do?
+                            </div>
+                        </div>
+                        <button class="btn btn-light mt-3" onclick="startAIDemo()">
+                            <i class="bi bi-chat-dots me-2"></i>
+                            Start Conversation
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <h2>Additional Learning Resources</h2>
-        <div class="sources">
-            <div class="sources-grid">
-
-    <div class="source-card">
-      <h4>OWASP</h4>
-      <p class="source-description">Open source project dedicated to web application security</p>
-      <a href="https://owasp.org/" target="_blank">
-        <img class="resource-icon" src="https://owasp.org/www--site-theme/favicon.ico" alt="OWASP Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://owasp.org/
-      </a>
-    </div>
-                <div class="source-card">
-                    <h4>PortSwigger (Burp Suite)</h4>
-                    <p class="source-description">Educational platform and tool for web application penetration testing</p>
-                    <a href="https://portswigger.net/" target="_blank"><i class="fa-solid fa-bug resource-icon" style="color: #ff6633;"></i> https://portswigger.net/</a>
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="section-title">Core Platform Features</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-brain"></i>
+                            </div>
+                            <h5 class="card-title">Interactive Psychological Testing</h5>
+                            <p class="card-text">
+                                Comprehensive 20-question assessment based on psychological triggers including time
+                                pressure, authority influence, and emergency scenarios
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="source-card">
-                    <h4>HackTheBox</h4>
-                    <p class="source-description">Platform for ethical hacking training with various challenges</p>
-                    <a href="https://www.hackthebox.com/" target="_blank"><i class="fa-solid fa-cube resource-icon" style="color: #9fef00;"></i> https://www.hackthebox.com/</a>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <h5 class="card-title">Advanced AI Assistant</h5>
+                            <p class="card-text">
+                                Intelligent AI that simulates attackers, provides real-time assessments, and delivers
+                                personalized recommendations based on psychological behavior patterns
+                            </p>
+                        </div>
+                    </div>
                 </div>
-    <div class="source-card">
-      <h4>TryHackMe</h4>
-      <p class="source-description">Platform for learning cybersecurity through interactive environments</p>
-      <a href="https://tryhackme.com/" target="_blank">
-        <img class="resource-icon" src="https://tryhackme.com/favicon.ico" alt="TryHackMe Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://tryhackme.com/
-      </a>
-    </div>
-
-    <div class="source-card">
-      <h4>Mozilla Developer Network (MDN)</h4>
-      <p class="source-description">Comprehensive web development resources and documentation</p>
-      <a href="https://developer.mozilla.org/en-US/docs/Web/Security" target="_blank">
-        <img class="resource-icon" src="https://developer.mozilla.org/favicon.ico" alt="MDN Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://developer.mozilla.org/
-      </a>
-    </div>
-
-    <div class="source-card">
-      <h4>Hacksplaining</h4>
-      <p class="source-description">Interactive lessons for learning web security</p>
-      <a href="https://www.hacksplaining.com/lessons" target="_blank">
-        <img class="resource-icon" src="https://www.hacksplaining.com/favicon.png" alt="Hacksplaining Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://www.hacksplaining.com/
-      </a>
-    </div>
-    <div class="source-card">
-      <h4>HackerOne Hacktivity</h4>
-      <p class="source-description">Publicly disclosed vulnerability reports</p>
-      <a href="https://hackerone.com/hacktivity" target="_blank">
-        <img class="resource-icon" src="https://www.hackerone.com/favicon.ico" alt="Hacktivity Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://hackerone.com/hacktivity
-      </a>
-    </div>
-    <div class="source-card">
-      <h4>Infosec Institute</h4>
-      <p class="source-description">Cybersecurity education and resources</p>
-      <a href="https://www.infosecinstitute.com/resources/" target="_blank">
-        <img class="resource-icon" src="https://www.infosecinstitute.com/contentassets/c7101b8ec5f54fa5814d8194b703481e/infosec-favicon.png" alt="Infosec Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://www.infosecinstitute.com/
-      </a>
-    </div>
-
-    <div class="source-card">
-      <h4>SANS Institute</h4>
-      <p class="source-description">Information security training and certifications</p>
-      <a href="https://www.sans.org/blog/" target="_blank">
-        <img class="resource-icon" src="https://www.sans.org/favicon.ico" alt="SANS Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://www.sans.org/blog/
-      </a>
-    </div>
-
-    <div class="source-card">
-      <h4>Security Weekly</h4>
-      <p class="source-description">Podcasts and articles on information security</p>
-      <a href="https://securityweekly.com/" target="_blank">
-        <img class="resource-icon" src="https://www.scworld.com/favicon.ico" alt="Security Weekly Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://securityweekly.com/
-      </a>
-    </div>
-
-
-    <div class="source-card">
-      <h4>Cybrary</h4>
-      <p class="source-description">Free cybersecurity learning community</p>
-      <a href="https://www.cybrary.it/" target="_blank">
-        <img class="resource-icon" src="https://cdn.prod.website-files.com/63eef15e3ff8fd318e9a6888/646551ba0901c32b9639d05e_cybrary%20favicon.png" alt="Cybrary Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://www.cybrary.it/
-      </a>
-    </div>
-
-
-    <div class="source-card">
-      <h4>OWASP Cheat Sheet Series</h4>
-      <p class="source-description">Concise security guidance for developers</p>
-      <a href="https://cheatsheetseries.owasp.org/" target="_blank">
-        <img class="resource-icon" src="https://owasp.org/www--site-theme/favicon.ico" alt="OWASP CSS Logo" style="width:20px;height:20px;margin-right:6px;vertical-align:middle;border-radius:4px;">
-        https://cheatsheetseries.owasp.org/
-      </a>
-    </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <h5 class="card-title">Behavioral Analytics</h5>
+                            <p class="card-text">
+                                Advanced analysis of cognitive biases and psychological behaviors that influence
+                                security decision-making processes
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-person-badge"></i>
+                            </div>
+                            <h5 class="card-title">Cyber Personality Profiling</h5>
+                            <p class="card-text">
+                                Advanced personality assessment to classify users as Beginner, Aware, or Expert with
+                                customized recommendations and training paths
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-trophy"></i>
+                            </div>
+                            <h5 class="card-title">Gamification System</h5>
+                            <p class="card-text">
+                                Comprehensive points, badges, achievements, and leaderboard system to motivate users and
+                                track progress in security awareness
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <h5 class="card-title">Security Challenges</h5>
+                            <p class="card-text">
+                                Daily and weekly challenges that simulate real-world attacks to test user responses
+                                under pressure and stress conditions
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-envelope-exclamation"></i>
+                            </div>
+                            <h5 class="card-title">Phishing Simulation</h5>
+                            <p class="card-text">
+                                Realistic phishing email simulations with AI-generated content to test and improve user
+                                detection capabilities
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <h5 class="card-title">Social Engineering Tests</h5>
+                            <p class="card-text">
+                                Interactive scenarios that test vulnerability to social engineering attacks through
+                                phone calls, emails, and in-person interactions
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-browser-chrome"></i>
+                            </div>
+                            <h5 class="card-title">Browser Extension</h5>
+                            <p class="card-text">
+                                Smart browser plugin that provides real-time security warnings and psychological nudges
+                                to prevent risky online behavior
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+                            <h5 class="card-title">Habit Tracking</h5>
+                            <p class="card-text">
+                                Daily habit tracking system with psychological insights to help users develop and
+                                maintain secure digital behaviors
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-award"></i>
+                            </div>
+                            <h5 class="card-title">Certification System</h5>
+                            <p class="card-text">
+                                Professional certification program with different levels and specializations based on
+                                psychological assessment results
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
+                            <h5 class="card-title">Progress Analytics</h5>
+                            <p class="card-text">
+                                Detailed analytics dashboard showing individual and team progress with psychological
+                                insights and improvement recommendations
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <footer>
-            <p>This training plan was created for preparation for web application penetration testing</p>
-            <p>© 2025 - Comprehensive 100-Day Training Plan</p>
-        </footer>
-    </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">Interactive Demo Experience</h2>
+
+            <!-- Psychological Pressure Test Demo -->
+            <div class="pressure-test">
+                <div class="stress-indicator"></div>
+                <div class="timer" id="testTimer">⏰ 30s</div>
+                <div class="pressure-level" id="pressureLevel">Pressure Level: LOW</div>
+
+                <h4 class="mb-4 text-center"><i class="bi bi-brain me-2"></i>Psychological Pressure Assessment - Real
+                    Cyber Attack Simulation</h4>
+
+                <div class="psychology-insight">
+                    <h6><i class="bi bi-lightbulb me-2"></i>Scientific Principle Applied:</h6>
+                    <p>This test simulates <strong>time pressure</strong> and <strong>urgency bias</strong> -
+                        psychological factors that make people 40% more likely to make security mistakes during real
+                        cyber attacks.</p>
+                    <p><strong>⚠️ Maximum Confusion:</strong> In real cyber attacks, attackers use visual tricks to
+                        create confusion. Here, <span style="color: #e53e3e; font-weight: bold;">ALL buttons are
+                            RED</span> to eliminate color-based decision making. You must rely purely on critical
+                        thinking and security knowledge, not visual cues!</p>
+                </div>
+
+                <div id="testContainer">
+                    <div class="pressure-question" id="question1">
+                        <h6><i class="bi bi-exclamation-triangle text-warning me-2"></i>URGENT: Question 1 of 5 - Time
+                            Critical Decision</h6>
+                        <p class="fw-bold fs-5">🚨 SECURITY ALERT: You receive an urgent email from "your bank"
+                            requesting immediate personal data update to avoid account closure. The email states you
+                            have only 2 minutes to respond. What would you do?</p>
+                        <div class="d-grid gap-3">
+                            <button class="pressure-button" onclick="answerQuestion(1, 'immediate')">
+                                <i class="bi bi-exclamation-triangle me-2"></i>Open the link and update data immediately
+                            </button>
+                            <button class="pressure-button" onclick="answerQuestion(1, 'verify')">
+                                <i class="bi bi-exclamation-triangle me-2"></i>Call the bank to verify the message first
+                            </button>
+                            <button class="pressure-button" onclick="answerQuestion(1, 'ignore')">
+                                <i class="bi bi-exclamation-triangle me-2"></i>Ignore the message completely
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center" style="position: relative; z-index: 10;">
+                    <button class="btn btn-outline-light" onclick="startPressureTest()" id="startTestBtn"
+                        style="position: relative; z-index: 10;">
+                        <i class="bi bi-play-circle me-2"></i>Start High-Pressure Test
+                    </button>
+                    <button class="btn btn-outline-light ms-2" onclick="resetPressureTest()" id="resetTestBtn"
+                        style="display: none; position: relative; z-index: 10;">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Reset Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Analysis Demo -->
+            <div class="ai-demo mt-5">
+                <h4 class="mb-4"><i class="bi bi-robot me-2"></i>AI-Powered Psychological Analysis</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Psychological Assessment:</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Pressure Resistance: <span
+                                    id="pressureResistance">-</span></li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Critical Thinking: <span
+                                    id="criticalThinking">-</span></li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Threat Awareness: <span
+                                    id="threatAwareness">-</span></li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Emotional Control: <span
+                                    id="emotionalControl">-</span></li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Risk Assessment: <span
+                                    id="riskAssessment">-</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Personalized Recommendations:</h6>
+                        <div id="recommendations" class="text-muted">
+                            <p>Answer the questions to get detailed analysis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Demo Features -->
+            <div class="row mt-5">
+                <div class="col-lg-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-shield-lock feature-icon"></i>
+                            <h5>Phishing Simulation</h5>
+                            <p>Test your ability to detect sophisticated phishing attempts</p>
+                            <button class="btn btn-outline-primary" onclick="startPhishingDemo()">Try Demo</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-people feature-icon"></i>
+                            <h5>Social Engineering</h5>
+                            <p>Experience realistic social engineering scenarios</p>
+                            <button class="btn btn-outline-primary" onclick="startSocialDemo()">Try Demo</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-graph-up feature-icon"></i>
+                            <h5>Progress Tracking</h5>
+                            <p>Monitor your cybersecurity awareness improvement</p>
+                            <button class="btn btn-outline-primary" onclick="showProgressDemo()">View Demo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section id="tech" class="py-5">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="tech-stack">
+                        <h5><i class="bi bi-code-slash me-2"></i>Frontend Technologies</h5>
+                        <div class="tech-item">HTML5</div>
+                        <div class="tech-item">Bootstrap 5</div>
+                        <div class="tech-item">JavaScript ES6+</div>
+                        <div class="tech-item">CSS3 & SASS</div>
+                        <div class="tech-item">Chart.js</div>
+                        <div class="tech-item">React Components</div>
+                        <div class="tech-item">WebRTC</div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tech-stack">
+                        <h5><i class="bi bi-server me-2"></i>Backend & Database</h5>
+                        <div class="tech-item">Laravel 10</div>
+                        <div class="tech-item">Python Flask</div>
+                        <div class="tech-item">MySQL 8.0</div>
+                        <div class="tech-item">Redis Cache</div>
+                        <div class="tech-item">RESTful API</div>
+                        <div class="tech-item">WebSocket</div>
+                        <div class="tech-item">Docker</div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tech-stack">
+                        <h5><i class="bi bi-robot me-2"></i>AI & Machine Learning</h5>
+                        <div class="tech-item">OpenAI GPT-4</div>
+                        <div class="tech-item">TensorFlow 2.0</div>
+                        <div class="tech-item">Scikit-learn</div>
+                        <div class="tech-item">NLTK & SpaCy</div>
+                        <div class="tech-item">Pandas & NumPy</div>
+                        <div class="tech-item">PyTorch</div>
+                        <div class="tech-item">Hugging Face</div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tech-stack">
+                        <h5><i class="bi bi-shield-check me-2"></i>Security & Infrastructure</h5>
+                        <div class="tech-item">JWT Authentication</div>
+                        <div class="tech-item">HTTPS/SSL</div>
+                        <div class="tech-item">AES-256 Encryption</div>
+                        <div class="tech-item">CSRF Protection</div>
+                        <div class="tech-item">Rate Limiting</div>
+                        <div class="tech-item">AWS Cloud</div>
+                        <div class="tech-item">CDN</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MVP Implementation -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">MVP Implementation - Core Features</h2>
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-rocket me-2"></i>Phase 1 - MVP Development</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Core Platform Features:</h6>
+                                    <ul class="list-unstyled">
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Secure Authentication
+                                            System</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Interactive
+                                            Psychological Test (20 questions)</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Cyber Personality
+                                            Assessment</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Personal Dashboard</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Points & Badge System
+                                        </li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Progress Tracking</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Basic Reporting</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>AI-Powered Features:</h6>
+                                    <ul class="list-unstyled">
+                                        <li><i class="bi bi-robot text-primary me-2"></i>Intelligent Chatbot Assistant
+                                        </li>
+                                        <li><i class="bi bi-robot text-primary me-2"></i>Personalized Recommendations
+                                        </li>
+                                        <li><i class="bi bi-robot text-primary me-2"></i>Behavioral Analysis Engine</li>
+                                        <li><i class="bi bi-robot text-primary me-2"></i>Smart Daily Notifications</li>
+                                        <li><i class="bi bi-robot text-primary me-2"></i>Weekly Progress Reports</li>
+                                        <li><i class="bi bi-robot text-primary me-2"></i>Phishing Simulation</li>
+                                        <li><i class="bi bi-robot text-primary me-2"></i>Social Engineering Tests</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <h6>Advanced MVP Features:</h6>
+                                    <ul class="list-unstyled">
+                                        <li><i class="bi bi-star text-warning me-2"></i>Browser Extension Plugin</li>
+                                        <li><i class="bi bi-star text-warning me-2"></i>Habit Tracking System</li>
+                                        <li><i class="bi bi-star text-warning me-2"></i>Team Leaderboards</li>
+                                        <li><i class="bi bi-star text-warning me-2"></i>Certification System</li>
+                                        <li><i class="bi bi-star text-warning me-2"></i>Real-time Analytics</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Psychological Features:</h6>
+                                    <ul class="list-unstyled">
+                                        <li><i class="bi bi-brain text-info me-2"></i>Cognitive Bias Detection</li>
+                                        <li><i class="bi bi-brain text-info me-2"></i>Stress Response Analysis</li>
+                                        <li><i class="bi bi-brain text-info me-2"></i>Decision-making Patterns</li>
+                                        <li><i class="bi bi-brain text-info me-2"></i>Risk Assessment Profile</li>
+                                        <li><i class="bi bi-brain text-info me-2"></i>Learning Style Adaptation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section id="timeline" class="py-5">
+        <div class="container">
+            <h2 class="section-title">Development Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5>Phase 1 (Months 1-2)</h5>
+                        <p>Psychological requirements analysis, UI/UX design, database architecture, and core platform
+                            foundation</p>
+                        <span class="badge bg-primary">Analysis & Design</span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5>Phase 2 (Months 3-4)</h5>
+                        <p>Core psychological testing system, personal dashboard, basic AI analysis engine, and user
+                            management</p>
+                        <span class="badge bg-success">Core Development</span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5>Phase 3 (Months 5-6)</h5>
+                        <p>Advanced AI chatbot, smart notifications, gamification system, and browser extension
+                            development</p>
+                        <span class="badge bg-warning">Advanced Features</span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5>Phase 4 (Months 7-8)</h5>
+                        <p>Beta testing with focus groups, psychological data analysis, algorithm optimization, and
+                            performance tuning</p>
+                        <span class="badge bg-info">Testing & Optimization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <h2 class="section-title text-white">Expected Outcomes & KPIs</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-number">50%</div>
+                        <p>Improvement in Cyber Awareness</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-number">40%</div>
+                        <p>Reduction in Security Errors</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-number">80%</div>
+                        <p>Program Completion Rate</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-number">4.5/5</div>
+                        <p>User Satisfaction Score</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5><i class="bi bi-shield-check me-2"></i>AwareX Platform</h5>
+                    <p class="text-muted">Revolutionary AI-powered platform combining behavioral psychology with
+                        cybersecurity awareness</p>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <h6>Graduation Project</h6>
+                    <p class="text-muted">Development of Cyber Psychology Assessment Platform using Advanced AI
+                        Technologies</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 AwareX MVP - Graduation Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Plan data with corrected resource links and additional vulnerabilities
-            const planData = [
-                {day: 1, date: "Tuesday 9/9/2025", type: "M", topic: "Introduction to Web Application Security", 
-                 resources: [
-                    {name: "OWASP Top 10", url: "https://owasp.org/www-project-top-ten/", icon: "shield-halved"},
-                    {name: "PortSwigger Academy", url: "https://portswigger.net/web-security", icon: "bug"},
-                    {name: "MDN Web Security", url: "https://developer.mozilla.org/en-US/docs/Web/Security", icon: "firefox"}
-                 ]},
-                {day: 2, date: "Wednesday 10/9/2025", type: "M", topic: "Setting up Testing Environment", 
-                 resources: [
-                    {name: "Kali Linux", url: "https://www.kali.org/", icon: "linux"},
-                    {name: "Burp Suite", url: "https://portswigger.net/burp", icon: "bug"},
-                    {name: "OWASP ZAP", url: "https://www.zaproxy.org/", icon: "shield-halved"},
-                    {name: "MDN HTTP", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP", icon: "firefox"}
-                 ]},
-                {day: 3, date: "Thursday 11/9/2025", type: "P", topic: "Practice: Tools Setup", 
-                 resources: [
-                    {name: "PortSwigger Setup", url: "https://portswigger.net/support/using-burp", icon: "bug"},
-                    {name: "Kali Linux Tutorial", url: "https://www.kali.org/tools/", icon: "linux"},
-                    {name: "OWASP ZAP Tutorial", url: "https://www.zaproxy.org/getting-started/", icon: "shield-halved"}
-                 ]},
-                {day: 4, date: "Friday 12/9/2025", type: "M", topic: "SQL Injection Vulnerability - Part 1", 
-                 resources: [
-                    {name: "OWASP SQL Guide", url: "https://owasp.org/www-community/attacks/SQL_Injection", icon: "shield-halved"},
-                    {name: "PortSwigger SQL Injection", url: "https://portswigger.net/web-security/sql-injection", icon: "bug"},
-                    {name: "MDN SQL Injection", url: "https://developer.mozilla.org/en-US/docs/Glossary/SQL_Injection", icon: "firefox"},
-                    {name: "PayloadsAllTheThings", url: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection", icon: "github"},
-                    {name: "ExploitDB", url: "https://www.exploit-db.com/docs/english/44348-sql-injection.pdf", icon: "database"}
-                 ]},
-                {day: 5, date: "Saturday 13/9/2025", type: "M", topic: "SQL Injection Vulnerability - Part 2", 
-                 resources: [
-                    {name: "PortSwigger SQL Labs", url: "https://portswigger.net/web-security/all-labs#sql-injection", icon: "bug"},
-                    {name: "SQL Injection Types", url: "https://portswigger.net/web-security/sql-injection/cheat-sheet", icon: "bug"}
-                 ]},
-                {day: 6, date: "Sunday 14/9/2025", type: "P", topic: "Practice: SQL Injection", 
-                 resources: [
-                    {name: "SQLi Labs", url: "https://portswigger.net/web-security/sql-injection/lab-retrieve-hidden-data", badge: "PortSwigger"},
-                    {name: "SQLi Union", url: "https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns", badge: "PortSwigger"},
-                    {name: "SQLi Blind", url: "https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses", badge: "PortSwigger"}
-                 ]},
-                {day: 7, date: "Monday 15/9/2025", type: "S", topic: "Solving: SQL Injection", 
-                 resources: [
-                    {name: "PortSwigger SQL Tests", url: "https://portswigger.net/web-security/all-labs#sql-injection", icon: "bug"},
-                    {name: "TryHackMe SQL Room", url: "https://tryhackme.com/room/sqlinjectionlm", icon: "laptop-code"}
-                 ]},
-                {day: 8, date: "Tuesday 16/9/2025", type: "M", topic: "XSS Vulnerability - Part 1", 
-                 resources: [
-                    {name: "OWASP XSS", url: "https://owasp.org/www-community/attacks/xss/", icon: "shield-halved"},
-                    {name: "PortSwigger XSS", url: "https://portswigger.net/web-security/cross-site-scripting", icon: "bug"},
-                    {name: "MDN XSS", url: "https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting", icon: "firefox"},
-                    {name: "XSS Cheat Sheet", url: "https://portswigger.net/web-security/cross-site-scripting/cheat-sheet", icon: "bug"},
-                    {name: "XSS Payloads", url: "https://github.com/payloadbox/xss-payload-list", icon: "github"}
-                 ]},
-                {day: 9, date: "Wednesday 17/9/2025", type: "M", topic: "XSS Vulnerability - Part 2", 
-                 resources: [
-                    {name: "PortSwigger XSS Labs", url: "https://portswigger.net/web-security/all-labs#cross-site-scripting", icon: "bug"},
-                    {name: "XSS Filter Evasion", url: "https://portswigger.net/web-security/cross-site-scripting/cheat-sheet", icon: "bug"}
-                 ]},
-                {day: 10, date: "Thursday 18/9/2025", type: "P", topic: "Practice: XSS", 
-                 resources: [
-                    {name: "Reflected XSS", url: "https://portswigger.net/web-security/cross-site-scripting/reflected/lab-html-context-nothing-encoded", badge: "PortSwigger"},
-                    {name: "Stored XSS", url: "https://portswigger.net/web-security/cross-site-scripting/stored/lab-html-context-nothing-encoded", badge: "PortSwigger"},
-                    {name: "DOM XSS", url: "https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink", badge: "PortSwigger"}
-                 ]},
-                {day: 11, date: "Friday 19/9/2025", type: "S", topic: "Solving: XSS", 
-                 resources: [
-                    {name: "PortSwigger XSS Tests", url: "https://portswigger.net/web-security/all-labs#cross-site-scripting", icon: "bug"},
-                    {name: "TryHackMe XSS Room", url: "https://tryhackme.com/room/xss", icon: "laptop-code"}
-                 ]},
-                {day: 12, date: "Saturday 20/9/2025", type: "M", topic: "CSRF - Part 1", 
-                 resources: [
-                    {name: "OWASP CSRF", url: "https://owasp.org/www-community/attacks/csrf", icon: "shield-halved"},
-                    {name: "PortSwigger CSRF", url: "https://portswigger.net/web-security/csrf", icon: "bug"},
-                    {name: "MDN CSRF", url: "https://developer.mozilla.org/en-US/docs/Glossary/CSRF", icon: "firefox"}
-                 ]},
-                {day: 13, date: "Sunday 21/9/2025", type: "M", topic: "CSRF - Part 2", 
-                 resources: [
-                    {name: "PortSwigger CSRF Labs", url: "https://portswigger.net/web-security/all-labs#cross-site-request-forgery-csrf", icon: "bug"},
-                    {name: "CSRF Protection", url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html", icon: "shield-halved"}
-                 ]},
-                {day: 14, date: "Monday 22/9/2025", type: "P", topic: "Practice: CSRF", 
-                 resources: [
-                    {name: "CSRF Basic", url: "https://portswigger.net/web-security/csrf/lab-no-defenses", badge: "PortSwigger"},
-                    {name: "CSRF Token", url: "https://portswigger.net/web-security/csrf/lab-token-not-tied-to-user-session", badge: "PortSwigger"},
-                    {name: "CSRF Referer", url: "https://portswigger.net/web-security/csrf/lab-validation-of-referer-dependent-on-header-being-present", badge: "PortSwigger"}
-                 ]},
-                {day: 15, date: "Tuesday 23/9/2025", type: "S", topic: "Solving: CSRF", 
-                 resources: [
-                    {name: "PortSwigger CSRF Tests", url: "https://portswigger.net/web-security/all-labs#cross-site-request-forgery-csrf", icon: "bug"}
-                 ]},
-                {day: 16, date: "Wednesday 24/9/2025", type: "M", topic: "Access Control Vulnerabilities - Part 1", 
-                 resources: [
-                    {name: "OWASP Access Control", url: "https://owasp.org/www-community/Access_Control_Cheat_Sheet", icon: "shield-halved"},
-                    {name: "PortSwigger Access Control", url: "https://portswigger.net/web-security/access-control", icon: "bug"},
-                    {name: "MDN Access Control", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS", icon: "firefox"}
-                 ]},
-                {day: 17, date: "Thursday 25/9/2025", type: "M", topic: "Access Control Vulnerabilities - Part 2", 
-                 resources: [
-                    {name: "PortSwigger Access Control Labs", url: "https://portswigger.net/web-security/all-labs#access-control-vulnerabilities", icon: "bug"},
-                    {name: "IDOR Tutorial", url: "https://portswigger.net/web-security/access-control/idor", icon: "bug"}
-                 ]},
-                {day: 18, date: "Friday 26/9/2025", type: "P", topic: "Practice: Access Control", 
-                 resources: [
-                    {name: "IDOR", url: "https://portswigger.net/web-security/access-control/lab-unprotected-admin-functionality", badge: "PortSwigger"},
-                    {name: "Privilege Escalation", url: "https://portswigger.net/web-security/access-control/lab-unprotected-admin-functionality-with-unpredictable-url", badge: "PortSwigger"},
-                    {name: "Vertical ACL", url: "https://portswigger.net/web-security/access-control/lab-vertical-privilege-escalation", badge: "PortSwigger"}
-                 ]},
-                {day: 19, date: "Saturday 27/9/2025", type: "S", topic: "Solving: Access Control", 
-                 resources: [
-                    {name: "PortSwigger Access Control Tests", url: "https://portswigger.net/web-security/all-labs#access-control-vulnerabilities", icon: "bug"}
-                 ]},
-                {day: 20, date: "Sunday 28/9/2025", type: "R", topic: "Review: Authentication-related Vulnerabilities", 
-                 resources: [
-                    {name: "OWASP Authentication Cheatsheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html", icon: "shield-halved"},
-                    {name: "PortSwigger Authentication", url: "https://portswigger.net/web-security/authentication", icon: "bug"}
-                 ]},
-                {day: 21, date: "Monday 29/9/2025", type: "M", topic: "Server-Side Request Forgery (SSRF) - Part 1", 
-                 resources: [
-                    {name: "OWASP SSRF", url: "https://owasp.org/www-community/attacks/Server_Side_Request_Forgery", icon: "shield-halved"},
-                    {name: "PortSwigger SSRF", url: "https://portswigger.net/web-security/ssrf", icon: "bug"},
-                    {name: "HackerOne SSRF Reports", url: "https://hackerone.com/hacktivity?querystring=ssrf", icon: "bug"},
-                    {name: "Orange Tsai SSRF Research", url: "https://blog.orange.tw/2017/07/how-i-chained-4-vulnerabilities-on.html", icon: "blog"}
-                 ]},
-                {day: 22, date: "Tuesday 30/9/2025", type: "M", topic: "Server-Side Request Forgery (SSRF) - Part 2", 
-                 resources: [
-                    {name: "PortSwigger SSRF Labs", url: "https://portswigger.net/web-security/all-labs#server-side-request-forgery-ssrf", icon: "bug"},
-                    {name: "SSRF Exploitation", url: "https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery", icon: "book"}
-                 ]},
-                {day: 23, date: "Wednesday 1/10/2025", type: "P", topic: "Practice: SSRF", 
-                 resources: [
-                    {name: "Basic SSRF", url: "https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-localhost", badge: "PortSwigger"},
-                    {name: "SSRF Filter Bypass", url: "https://portswigger.net/web-security/ssrf/lab-ssrf-with-filter-bypass", badge: "PortSwigger"},
-                    {name: "SSRF AWS", url: "https://portswigger.net/web-security/ssrf/lab-ssrf-against-aws-ec2-metadata-api", badge: "PortSwigger"}
-                 ]},
-                {day: 24, date: "Thursday 2/10/2025", type: "S", topic: "Solving: SSRF", 
-                 resources: [
-                    {name: "PortSwigger SSRF Tests", url: "https://portswigger.net/web-security/all-labs#server-side-request-forgery-ssrf", icon: "bug"}
-                 ]},
-                {day: 25, date: "Friday 3/10/2025", type: "M", topic: "Server-Side Template Injection (SSTI) - Part 1", 
-                 resources: [
-                    {name: "OWASP SSTI", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/18-Testing_for_Server_Side_Template_Injection", icon: "shield-halved"},
-                    {name: "PortSwigger SSTI", url: "https://portswigger.net/web-security/server-side-template-injection", icon: "bug"},
-                    {name: "SSTI Research", url: "https://portswigger.net/research/server-side-template-injection", icon: "bug"}
-                 ]},
-                {day: 26, date: "Saturday 4/10/2025", type: "M", topic: "Server-Side Template Injection (SSTI) - Part 2", 
-                 resources: [
-                    {name: "PortSwigger SSTI Labs", url: "https://portswigger.net/web-security/all-labs#server-side-template-injection", icon: "bug"},
-                    {name: "SSTI Cheatsheet", url: "https://portswigger.net/web-security/server-side-template-injection/cheat-sheet", icon: "bug"}
-                 ]},
-                {day: 27, date: "Sunday 5/10/2025", type: "P", topic: "Practice: SSTI", 
-                 resources: [
-                    {name: "Basic SSTI", url: "https://portswigger.net/web-security/server-side-template-injection/lab-basic", badge: "PortSwigger"},
-                    {name: "SSTI Code Execution", url: "https://portswigger.net/web-security/server-side-template-injection/lab-basic-code-context", badge: "PortSwigger"},
-                    {name: "SSTI Advanced", url: "https://portswigger.net/web-security/server-side-template-injection/lab-advanced", badge: "PortSwigger"}
-                 ]},
-                {day: 28, date: "Monday 6/10/2025", type: "S", topic: "Solving: SSTI", 
-                 resources: [
-                    {name: "PortSwigger SSTI Tests", url: "https://portswigger.net/web-security/all-labs#server-side-template-injection", icon: "bug"}
-                 ]},
-                {day: 29, date: "Tuesday 7/10/2025", type: "M", topic: "XML External Entity (XXE) - Part 1", 
-                 resources: [
-                    {name: "OWASP XXE", url: "https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing", icon: "shield-halved"},
-                    {name: "PortSwigger XXE", url: "https://portswigger.net/web-security/xxe", icon: "bug"},
-                    {name: "HackerOne XXE Reports", url: "https://hackerone.com/hacktivity?querystring=xxe", icon: "bug"}
-                 ]},
-                {day: 30, date: "Wednesday 8/10/2025", type: "M", topic: "XML External Entity (XXE) - Part 2", 
-                 resources: [
-                    {name: "PortSwigger XXE Labs", url: "https://portswigger.net/web-security/all-labs#xml-external-entity-xxe-injection", icon: "bug"},
-                    {name: "XXE Payloads", url: "https://portswigger.net/web-security/xxe/cheat-sheet", icon: "bug"}
-                 ]},
-                {day: 31, date: "Thursday 9/10/2025", type: "P", topic: "Practice: XXE", 
-                 resources: [
-                    {name: "XXE Basic", url: "https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-retrieve-files", badge: "PortSwigger"},
-                    {name: "XXE SSRF", url: "https://portswigger.net/web-security/xxe/lab-xxe-to-exploit-ssrf", badge: "PortSwigger"},
-                    {name: "XXE Blind", url: "https://portswigger.net/web-security/xxe/lab-blind-xxe-with-out-of-band-interaction", badge: "PortSwigger"}
-                 ]},
-                {day: 32, date: "Friday 10/10/2025", type: "S", topic: "Solving: XXE", 
-                 resources: [
-                    {name: "PortSwigger XXE Tests", url: "https://portswigger.net/web-security/all-labs#xml-external-entity-xxe-injection", icon: "bug"}
-                 ]},
-                {day: 33, date: "Saturday 11/10/2025", type: "M", topic: "Insecure Deserialization - Part 1", 
-                 resources: [
-                    {name: "OWASP Insecure Deserialization", url: "https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data", icon: "shield-halved"},
-                    {name: "PortSwigger Insecure Deserialization", url: "https://portswigger.net/web-security/deserialization", icon: "bug"},
-                    {name: "HackerOne Deserialization Reports", url: "https://hackerone.com/hacktivity?querystring=deserialization", icon: "bug"}
-                 ]},
-                {day: 34, date: "Sunday 12/10/2025", type: "M", topic: "Insecure Deserialization - Part 2", 
-                 resources: [
-                    {name: "PortSwigger Insecure Deserialization Labs", url: "https://portswigger.net/web-security/all-labs#insecure-deserialization", icon: "bug"},
-                    {name: "Java Deserialization", url: "https://github.com/frohoff/ysoserial", icon: "github"}
-                 ]},
-                {day: 35, date: "Monday 13/10/2025", type: "P", topic: "Practice: Insecure Deserialization", 
-                 resources: [
-                    {name: "PHP Deserialization", url: "https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-modifying-serialized-objects", badge: "PortSwigger"},
-                    {name: "Java Deserialization", url: "https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-modifying-serialized-data-types", badge: "PortSwigger"},
-                    {name: "DotNet Deserialization", url: "https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-using-deserialization-sink-to-invoke-arbitrary-method", badge: "PortSwigger"}
-                 ]},
-                {day: 36, date: "Tuesday 14/10/2025", type: "S", topic: "Solving: Insecure Deserialization", 
-                 resources: [
-                    {name: "PortSwigger Deserialization Tests", url: "https://portswigger.net/web-security/all-labs#insecure-deserialization", icon: "bug"}
-                 ]},
-                {day: 37, date: "Wednesday 15/10/2025", type: "M", topic: "Authentication Vulnerabilities - Part 1", 
-                 resources: [
-                    {name: "OWASP Authentication", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/04-Authentication_Testing/", icon: "shield-halved"},
-                    {name: "PortSwigger Authentication", url: "https://portswigger.net/web-security/authentication", icon: "bug"},
-                    {name: "MDN Authentication", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication", icon: "firefox"}
-                 ]},
-                {day: 38, date: "Thursday 16/10/2025", type: "M", topic: "Authentication Vulnerabilities - Part 2", 
-                 resources: [
-                    {name: "PortSwigger Auth Labs", url: "https://portswigger.net/web-security/all-labs#authentication", icon: "bug"},
-                    {name: "Auth Bypass Techniques", url: "https://portswigger.net/web-security/authentication/cheat-sheet", icon: "bug"}
-                 ]},
-                {day: 39, date: "Friday 17/10/2025", type: "P", topic: "Practice: Authentication", 
-                 resources: [
-                    {name: "Auth Bypass", url: "https://portswigger.net/web-security/authentication/other-mechanisms/lab-basic-brute-force", badge: "PortSwigger"},
-                    {name: "2FA Bypass", url: "https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-bypass-using-a-brute-force-attack", badge: "PortSwigger"},
-                    {name: "Password Reset", url: "https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-poisoning", badge: "PortSwigger"}
-                 ]},
-                {day: 40, date: "Saturday 18/10/2025", type: "S", topic: "Solving: Authentication", 
-                 resources: [
-                    {name: "PortSwigger Auth Tests", url: "https://portswigger.net/web-security/all-labs#authentication", icon: "bug"}
-                 ]},
-                {day: 41, date: "Sunday 19/10/2025", type: "R", topic: "Review: Processing Vulnerabilities", 
-                 resources: [
-                    {name: "OWASP Cheat Sheets", url: "https://cheatsheetseries.owasp.org/", icon: "shield-halved"},
-                    {name: "PortSwigger Web Security", url: "https://portswigger.net/web-security", icon: "bug"}
-                 ]},
-                {day: 42, date: "Monday 20/10/2025", type: "M", topic: "Business Logic Vulnerabilities - Part 1", 
-                 resources: [
-                    {name: "OWASP Business Logic", url: "https://owasp.org/www-community/vulnerabilities/Business_logic_vulnerability", icon: "shield-halved"},
-                    {name: "PortSwigger Business Logic", url: "https://portswigger.net/web-security/logic-flaws", icon: "bug"},
-                    {name: "HackerOne Logic Flaw Reports", url: "https://hackerone.com/hacktivity?querystring=logic%20flaw", icon: "bug"}
-                 ]},
-                {day: 43, date: "Tuesday 21/10/2025", type: "M", topic: "Business Logic Vulnerabilities - Part 2", 
-                 resources: [
-                    {name: "PortSwigger Logic Labs", url: "https://portswigger.net/web-security/all-labs#business-logic-vulnerabilities", icon: "bug"},
-                    {name: "Logic Flaws Examples", url: "https://portswigger.net/web-security/logic-flaws/examples", icon: "bug"}
-                 ]},
-                {day: 44, date: "Wednesday 22/10/2025", type: "P", topic: "Practice: Business Logic", 
-                 resources: [
-                    {name: "Logic Flaw 1", url: "https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-high-level", badge: "PortSwigger"},
-                    {name: "Logic Flaw 2", url: "https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-low-level", badge: "PortSwigger"},
-                    {name: "Logic Flaw 3", url: "https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-authentication", badge: "PortSwigger"}
-                 ]},
-                {day: 45, date: "Thursday 23/10/2025", type: "S", topic: "Solving: Business Logic", 
-                 resources: [
-                    {name: "PortSwigger Logic Tests", url: "https://portswigger.net/web-security/all-labs#business-logic-vulnerabilities", icon: "bug"}
-                 ]},
-                {day: 46, date: "Friday 24/10/2025", type: "M", topic: "HTTP Request Smuggling - Part 1", 
-                 resources: [
-                    {name: "OWASP HTTP Smuggling", url: "https://owasp.org/www-community/attacks/HTTP_Request_Smuggling", icon: "shield-halved"},
-                    {name: "PortSwigger HTTP Smuggling", url: "https://portswigger.net/web-security/request-smuggling", icon: "bug"},
-                    {name: "HackerOne Smuggling Reports", url: "https://hackerone.com/hacktivity?querystring=request%20smuggling", icon: "bug"}
-                 ]},
-                {day: 47, date: "Saturday 25/10/2025", type: "M", topic: "HTTP Request Smuggling - Part 2", 
-                 resources: [
-                    {name: "PortSwigger Smuggling Labs", url: "https://portswigger.net/web-security/all-labs#http-request-smuggling", icon: "bug"},
-                    {name: "Smuggling Research", url: "https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn", icon: "bug"}
-                 ]},
-                {day: 48, date: "Sunday 26/10/2025", type: "P", topic: "Practice: HTTP Request Smuggling", 
-                 resources: [
-                    {name: "Basic Smuggling", url: "https://portswigger.net/web-security/request-smuggling/lab/basic-cl-te", badge: "PortSwigger"},
-                    {name: "Advanced Smuggling", url: "https://portswigger.net/web-security/request-smuggling/lab/obfuscating-te-cl", badge: "PortSwigger"},
-                    {name: "Smuggling Attack", url: "https://portswigger.net/web-security/request-smuggling/lab/perform-request-smuggling-attack", badge: "PortSwigger"}
-                 ]},
-                {day: 49, date: "Monday 27/10/2025", type: "S", topic: "Solving: HTTP Request Smuggling", 
-                 resources: [
-                    {name: "PortSwigger Smuggling Tests", url: "https://portswigger.net/web-security/all-labs#http-request-smuggling", icon: "bug"}
-                 ]},
-                {day: 50, date: "Tuesday 28/10/2025", type: "M", topic: "Web Cache Poisoning - Part 1", 
-                 resources: [
-                    {name: "OWASP Cache Poisoning", url: "https://owasp.org/www-community/attacks/Cache_Poisoning", icon: "shield-halved"},
-                    {name: "PortSwigger Cache Poisoning", url: "https://portswigger.net/web-security/web-cache-poisoning", icon: "bug"},
-                    {name: "HackerOne Cache Poisoning Reports", url: "https://hackerone.com/hacktivity?querystring=cache%20poisoning", icon: "bug"}
-                 ]},
-                {day: 51, date: "Wednesday 29/10/2025", type: "M", topic: "Web Cache Poisoning - Part 2", 
-                 resources: [
-                    {name: "PortSwigger Cache Labs", url: "https://portswigger.net/web-security/all-labs#web-cache-poisoning", icon: "bug"},
-                    {name: "Cache Poisoning Research", url: "https://portswigger.net/research/web-cache-poisoning", icon: "bug"}
-                 ]},
-                {day: 52, date: "Thursday 30/10/2025", type: "P", topic: "Practice: Web Cache Poisoning", 
-                 resources: [
-                    {name: "Basic Cache Poisoning", url: "https://portswigger.net/web-security/web-cache-poisoning/lab/basic", badge: "PortSwigger"},
-                    {name: "Cache Deception", url: "https://portswigger.net/web-security/web-cache-poisoning/lab-web-cache-deception", badge: "PortSwigger"},
-                    {name: "Advanced Cache Poisoning", url: "https://portswigger.net/web-security/web-cache-poisoning/lab/advanced", badge: "PortSwigger"}
-                 ]},
-                {day: 53, date: "Friday 31/10/2025", type: "S", topic: "Solving: Web Cache Poisoning", 
-                 resources: [
-                    {name: "PortSwigger Cache Tests", url: "https://portswigger.net/web-security/all-labs#web-cache-poisoning", icon: "bug"}
-                 ]},
-                {day: 54, date: "Saturday 1/11/2025", type: "M", topic: "HTTP Host Header Injection", 
-                 resources: [
-                    {name: "OWASP Host Header", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/17-Testing_for_Host_Header_Injection", icon: "shield-halved"},
-                    {name: "PortSwigger Host Header", url: "https://portswigger.net/web-security/host-header", icon: "bug"},
-                    {name: "Host Header Labs", url: "https://portswigger.net/web-security/all-labs#host-header-injection", icon: "bug"}
-                 ]},
-                {day: 55, date: "Sunday 2/11/2025", type: "P", topic: "Practice: HTTP Host Header Injection", 
-                 resources: [
-                    {name: "Basic Host Header", url: "https://portswigger.net/web-security/host-header/exploiting/lab-host-header-authentication-bypass", badge: "PortSwigger"},
-                    {name: "Host Header Web Cache", url: "https://portswigger.net/web-security/host-header/exploiting/lab-host-header-web-cache-poisoning", badge: "PortSwigger"},
-                    {name: "Host Header Routing", url: "https://portswigger.net/web-security/host-header/exploiting/lab-host-header-routing-bypass", badge: "PortSwigger"}
-                 ]},
-                {day: 56, date: "Monday 3/11/2025", type: "M", topic: "CRLF Injection & HTTP Response Splitting", 
-                 resources: [
-                    {name: "OWASP CRLF", url: "https://owasp.org/www-community/vulnerabilities/CRLF_Injection", icon: "shield-halved"},
-                    {name: "PortSwigger CRLF", url: "https://portswigger.net/web-security/crlf", icon: "bug"},
-                    {name: "CRLF Labs", url: "https://portswigger.net/web-security/all-labs#crlf-injection", icon: "bug"}
-                 ]},
-                {day: 57, date: "Tuesday 4/11/2025", type: "P", topic: "Practice: CRLF Injection", 
-                 resources: [
-                    {name: "Basic CRLF", url: "https://portswigger.net/web-security/crlf/lab-basic-crlf-injection", badge: "PortSwigger"},
-                    {name: "CRLF Request", url: "https://portswigger.net/web-security/crlf/lab-crlf-injection-into-log-handler", badge: "PortSwigger"}
-                 ]},
-                {day: 58, date: "Wednesday 5/11/2025", type: "M", topic: "Race Conditions", 
-                 resources: [
-                    {name: "OWASP Race Conditions", url: "https://owasp.org/www-community/attacks/Race_Condition", icon: "shield-halved"},
-                    {name: "PortSwigger Race Conditions", url: "https://portswigger.net/web-security/race-conditions", icon: "bug"},
-                    {name: "Race Condition Labs", url: "https://portswigger.net/web-security/all-labs#race-conditions", icon: "bug"}
-                 ]},
-                {day: 59, date: "Thursday 6/11/2025", type: "P", topic: "Practice: Race Conditions", 
-                 resources: [
-                    {name: "Race Condition Limit", url: "https://portswigger.net/web-security/race-conditions/lab-race-condition-account-registration", badge: "PortSwigger"},
-                    {name: "Race Condition Purchase", url: "https://portswigger.net/web-security/race-conditions/lab-race-condition-purchase", badge: "PortSwigger"}
-                 ]},
-                {day: 60, date: "Friday 7/11/2025", type: "M", topic: "Session Fixation", 
-                 resources: [
-                    {name: "OWASP Session Fixation", url: "https://owasp.org/www-community/attacks/Session_fixation", icon: "shield-halved"},
-                    {name: "PortSwigger Session Management", url: "https://portswigger.net/web-security/session-management", icon: "bug"},
-                    {name: "Session Fixation Tutorial", url: "https://book.hacktricks.xyz/pentesting-web/session-management", icon: "book"}
-                 ]},
-                {day: 61, date: "Saturday 8/11/2025", type: "P", topic: "Practice: Session Fixation", 
-                 resources: [
-                    {name: "Session Fixation Lab", url: "https://portswigger.net/web-security/authentication/other-mechanics/lab-basic-session-fixation", badge: "PortSwigger"}
-                 ]},
-                {day: 62, date: "Sunday 9/11/2025", type: "M", topic: "Subdomain Takeover", 
-                 resources: [
-                    {name: "OWASP Subdomain Takeover", url: "https://owasp.org/www-community/attacks/Subdomain_takeover", icon: "shield-halved"},
-                    {name: "Subdomain Takeover Guide", url: "https://github.com/EdOverflow/can-i-take-over-xyz", icon: "github"},
-                    {name: "Subdomain Takeover Tutorial", url: "https://book.hacktricks.xyz/pentesting-web/subdomain-takeover", icon: "book"}
-                 ]},
-                {day: 63, date: "Monday 10/11/2025", type: "P", topic: "Practice: Subdomain Takeover", 
-                 resources: [
-                    {name: "Subdomain Takeover Practice", url: "https://github.com/EdOverflow/can-i-take-over-xyz", icon: "github"},
-                    {name: "TryHackMe Subdomain Room", url: "https://tryhackme.com/room/subdomainenumeration", icon: "laptop-code"}
-                 ]},
-                {day: 64, date: "Tuesday 11/11/2025", type: "M", topic: "Prototype Pollution", 
-                 resources: [
-                    {name: "OWASP Prototype Pollution", url: "https://owasp.org/www-community/attacks/Prototype_Pollution", icon: "shield-halved"},
-                    {name: "PortSwigger Prototype Pollution", url: "https://portswigger.net/web-security/prototype-pollution", icon: "bug"},
-                    {name: "Prototype Pollution Labs", url: "https://portswigger.net/web-security/all-labs#prototype-pollution", icon: "bug"},
-                    {name: "Prototype Pollution Research", url: "https://github.com/BlackFan/client-side-prototype-pollution", icon: "github"}
-                 ]},
-                {day: 65, date: "Wednesday 12/11/2025", type: "P", topic: "Practice: Prototype Pollution", 
-                 resources: [
-                    {name: "Prototype Pollution Basic", url: "https://portswigger.net/web-security/prototype-pollution/lab-prototype-pollution-object-injection", badge: "PortSwigger"},
-                    {name: "Prototype Pollution DOM", url: "https://portswigger.net/web-security/prototype-pollution/lab-prototype-pollution-dom-xss", badge: "PortSwigger"}
-                 ]},
-                {day: 66, date: "Thursday 13/11/2025", type: "M", topic: "Web Cache Deception", 
-                 resources: [
-                    {name: "OWASP Web Cache Deception", url: "https://owasp.org/www-community/attacks/Web_Cache_Deception_Attack", icon: "shield-halved"},
-                    {name: "PortSwigger Web Cache Deception", url: "https://portswigger.net/web-security/web-cache-poisoning/targeting/users/web-cache-deception", icon: "bug"},
-                    {name: "Web Cache Deception Research", url: "https://omergil.blogspot.com/2017/02/web-cache-deception-attack.html", icon: "blog"}
-                 ]},
-                {day: 67, date: "Friday 14/11/2025", type: "P", topic: "Practice: Web Cache Deception", 
-                 resources: [
-                    {name: "Web Cache Deception Lab", url: "https://portswigger.net/web-security/web-cache-poisoning/lab-web-cache-deception", badge: "PortSwigger"}
-                 ]},
-                {day: 68, date: "Saturday 15/11/2025", type: "M", topic: "Mass Assignment", 
-                 resources: [
-                    {name: "OWASP Mass Assignment", url: "https://owasp.org/www-community/attacks/Mass_Assignment", icon: "shield-halved"},
-                    {name: "PortSwigger Mass Assignment", url: "https://portswigger.net/web-security/access-control/mass-assignment", icon: "bug"},
-                    {name: "Mass Assignment Labs", url: "https://portswigger.net/web-security/all-labs#mass-assignment", icon: "bug"}
-                 ]},
-                {day: 69, date: "Sunday 16/11/2025", type: "P", topic: "Practice: Mass Assignment", 
-                 resources: [
-                    {name: "Mass Assignment Lab", url: "https://portswigger.net/web-security/access-control/mass-assignment/lab-mass-assignment", badge: "PortSwigger"}
-                 ]},
-                {day: 70, date: "Monday 17/11/2025", type: "M", topic: "NoSQL Injection", 
-                 resources: [
-                    {name: "OWASP NoSQL Injection", url: "https://owasp.org/www-community/attacks/NoSQL_Injection", icon: "shield-halved"},
-                    {name: "NoSQL Injection Tutorial", url: "https://book.hacktricks.xyz/pentesting-web/nosql-injection", icon: "book"},
-                    {name: "NoSQL Injection Payloads", url: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection", icon: "github"}
-                 ]},
-                {day: 71, date: "Tuesday 18/11/2025", type: "P", topic: "Practice: NoSQL Injection", 
-                 resources: [
-                    {name: "NoSQL Injection Practice", url: "https://github.com/Charlie-belmer/vulnerable-node-app", icon: "github"},
-                    {name: "TryHackMe NoSQL Room", url: "https://tryhackme.com/room/nosqlinjectiontutorial", icon: "laptop-code"}
-                 ]},
-                {day: 72, date: "Wednesday 19/11/2025", type: "M", topic: "Path Traversal (Directory Traversal)", 
-                 resources: [
-                    {name: "OWASP Path Traversal", url: "https://owasp.org/www-community/attacks/Path_Traversal", icon: "shield-halved"},
-                    {name: "PortSwigger Path Traversal", url: "https://portswigger.net/web-security/file-path-traversal", icon: "bug"},
-                    {name: "Path Traversal Labs", url: "https://portswigger.net/web-security/all-labs#file-path-traversal", icon: "bug"}
-                 ]},
-                {day: 73, date: "Thursday 20/11/2025", type: "P", topic: "Practice: Path Traversal", 
-                 resources: [
-                    {name: "Path Traversal Basic", url: "https://portswigger.net/web-security/file-path-traversal/lab-simple", badge: "PortSwigger"},
-                    {name: "Path Traversal Sequences", url: "https://portswigger.net/web-security/file-path-traversal/lab-sequences-blocked-absolute-path-bypass", badge: "PortSwigger"},
-                    {name: "Path Traversal Validation", url: "https://portswigger.net/web-security/file-path-traversal/lab-validate-file-extension-null-byte-bypass", badge: "PortSwigger"}
-                 ]},
-                {day: 74, date: "Friday 21/11/2025", type: "M", topic: "RCE (Remote Code Execution) - Part 1", 
-                 resources: [
-                    {name: "OWASP RCE", url: "https://owasp.org/www-community/attacks/Code_Injection", icon: "shield-halved"},
-                    {name: "PortSwigger RCE", url: "https://portswigger.net/web-security/os-command-injection", icon: "bug"},
-                    {name: "RCE Labs", url: "https://portswigger.net/web-security/all-labs#os-command-injection", icon: "bug"}
-                 ]},
-                {day: 75, date: "Saturday 22/11/2025", type: "M", topic: "RCE (Remote Code Execution) - Part 2", 
-                 resources: [
-                    {name: "RCE Payloads", url: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection", icon: "github"},
-                    {name: "RCE Cheat Sheet", url: "https://portswigger.net/web-security/os-command-injection/cheat-sheet", icon: "bug"}
-                 ]},
-                {day: 76, date: "Sunday 23/11/2025", type: "P", topic: "Practice: RCE", 
-                 resources: [
-                    {name: "RCE Basic", url: "https://portswigger.net/web-security/os-command-injection/lab-simple", badge: "PortSwigger"},
-                    {name: "RCE Blind", url: "https://portswigger.net/web-security/os-command-injection/lab-blind", badge: "PortSwigger"},
-                    {name: "RCE Time Delay", url: "https://portswigger.net/web-security/os-command-injection/lab-blind-time-delays", badge: "PortSwigger"}
-                 ]},
-                {day: 77, date: "Monday 24/11/2025", type: "S", topic: "Solving: RCE", 
-                 resources: [
-                    {name: "PortSwigger RCE Tests", url: "https://portswigger.net/web-security/all-labs#os-command-injection", icon: "bug"}
-                 ]},
-                {day: 78, date: "Tuesday 25/11/2025", type: "R", topic: "Review: Advanced Vulnerabilities", 
-                 resources: [
-                    {name: "OWASP Cheat Sheets", url: "https://cheatsheetseries.owasp.org/", icon: "shield-halved"},
-                    {name: "PortSwigger Web Security", url: "https://portswigger.net/web-security", icon: "bug"}
-                 ]},
-                {day: 79, date: "Wednesday 26/11/2025", type: "M", topic: "Advanced Techniques: API Testing", 
-                 resources: [
-                    {name: "OWASP API Security Top 10", url: "https://owasp.org/www-project-api-security/", icon: "shield-halved"},
-                    {name: "PortSwigger API Security", url: "https://portswigger.net/web-security/api", icon: "bug"},
-                    {name: "MDN REST APIs", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview", icon: "firefox"}
-                 ]},
-                {day: 80, date: "Thursday 27/11/2025", type: "M", topic: "Advanced Techniques: GraphQL", 
-                 resources: [
-                    {name: "HackTricks GraphQL", url: "https://book.hacktricks.xyz/pentesting/pentesting-web/graphql", icon: "book"},
-                    {name: "PortSwigger GraphQL", url: "https://portswigger.net/web-security/graphql", icon: "bug"},
-                    {name: "GraphQL Official Docs", url: "https://graphql.org/learn/", icon: "book"}
-                 ]},
-                {day: 81, date: "Friday 28/11/2025", type: "P", topic: "Practice: APIs & GraphQL", 
-                 resources: [
-                    {name: "API Testing", url: "https://portswigger.net/web-security/api-testing", badge: "PortSwigger"},
-                    {name: "GraphQL Testing", url: "https://portswigger.net/web-security/graphql", badge: "PortSwigger"},
-                    {name: "GraphQL Batching", url: "https://portswigger.net/web-security/graphql/batching-attacks", badge: "PortSwigger"}
-                 ]},
-                {day: 82, date: "Saturday 29/11/2025", type: "S", topic: "Solving: APIs & GraphQL", 
-                 resources: [
-                    {name: "PortSwigger API Tests", url: "https://portswigger.net/web-security/all-labs#api-security", icon: "bug"}
-                 ]},
-                {day: 83, date: "Sunday 30/11/2025", type: "M", topic: "Advanced Techniques: WebSockets", 
-                 resources: [
-                    {name: "PortSwigger WebSockets", url: "https://portswigger.net/web-security/websockets", icon: "bug"},
-                    {name: "OWASP WebSockets", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/11-Client_Side_Testing/10-Testing_WebSockets", icon: "shield-halved"},
-                    {name: "MDN WebSockets", url: "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API", icon: "firefox"}
-                 ]},
-                {day: 84, date: "Monday 1/12/2025", type: "M", topic: "Advanced Techniques: JWT", 
-                 resources: [
-                    {name: "PortSwigger JWT", url: "https://portswigger.net/web-security/jwt", icon: "bug"},
-                    {name: "JWT.io", url: "https://jwt.io/", icon: "lock"},
-                    {name: "MDN JWT", url: "https://developer.mozilla.org/en-US/docs/Web/JSON/JSON_Web_Tokens", icon: "firefox"}
-                 ]},
-                {day: 85, date: "Tuesday 2/12/2025", type: "P", topic: "Practice: WebSockets & JWT", 
-                 resources: [
-                    {name: "WebSockets Manipulation", url: "https://portswigger.net/web-security/websockets", badge: "PortSwigger"},
-                    {name: "JWT Vulnerabilities", url: "https://portswigger.net/web-security/jwt", badge: "PortSwigger"},
-                    {name: "JWT Alg None", url: "https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-flawed-signature-verification", badge: "PortSwigger"}
-                 ]},
-                {day: 86, date: "Wednesday 3/12/2025", type: "S", topic: "Solving: WebSockets & JWT", 
-                 resources: [
-                    {name: "PortSwigger WebSockets Tests", url: "https://portswigger.net/web-security/all-labs#websocket-security", icon: "bug"}
-                 ]},
-                {day: 87, date: "Thursday 4/12/2025", type: "M", topic: "Advanced Techniques: OAuth 2.0", 
-                 resources: [
-                    {name: "OAuth 2.0 Security", url: "https://oauth.net/2/", icon: "lock"},
-                    {name: "PortSwigger OAuth", url: "https://portswigger.net/web-security/oauth", icon: "bug"},
-                    {name: "MDN OAuth", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#oauth", icon: "firefox"}
-                 ]},
-                {day: 88, date: "Friday 5/12/2025", type: "M", topic: "Advanced Techniques: SAML", 
-                 resources: [
-                    {name: "SAML Security", url: "https://www.samltool.com/security.php", icon: "lock"},
-                    {name: "PortSwigger SAML", url: "https://portswigger.net/web-security/saml", icon: "bug"},
-                    {name: "SAML Tutorial", url: "https://developer.mozilla.org/en-US/docs/Web/Security/SAML", icon: "firefox"}
-                 ]},
-                {day: 89, date: "Saturday 6/12/2025", type: "P", topic: "Practice: OAuth & SAML", 
-                 resources: [
-                    {name: "OAuth Flaws", url: "https://portswigger.net/web-security/oauth", badge: "PortSwigger"},
-                    {name: "SAML Flaws", url: "https://portswigger.net/web-security/saml", badge: "PortSwigger"},
-                    {name: "OAuth Token Hijack", url: "https://portswigger.net/web-security/oauth/lab-oauth-authentication-bypass-via-oauth-implicit-flow", badge: "PortSwigger"}
-                 ]},
-                {day: 90, date: "Sunday 7/12/2025", type: "S", topic: "Solving: OAuth & SAML", 
-                 resources: [
-                    {name: "PortSwigger OAuth Tests", url: "https://portswigger.net/web-security/all-labs#oauth-2.0", icon: "bug"}
-                 ]},
-                {day: 91, date: "Monday 8/12/2025", type: "R", topic: "Review: Advanced Techniques", 
-                 resources: [
-                    {name: "OWASP Cheat Sheets", url: "https://cheatsheetseries.owasp.org/", icon: "shield-halved"},
-                    {name: "PortSwigger Web Security", url: "https://portswigger.net/web-security", icon: "bug"}
-                 ]},
-                {day: 92, date: "Tuesday 9/12/2025", type: "M", topic: "Penetration Testing Methodology - Part 1", 
-                 resources: [
-                    {name: "PTES", url: "http://www.pentest-standard.org/", icon: "book"},
-                    {name: "OWASP Testing Guide", url: "https://owasp.org/www-project-web-security-testing-guide/", icon: "shield-halved"},
-                    {name: "MDN Security", url: "https://developer.mozilla.org/en-US/docs/Web/Security", icon: "firefox"}
-                 ]},
-                {day: 93, date: "Wednesday 10/12/2025", type: "M", topic: "Penetration Testing Methodology - Part 2", 
-                 resources: [
-                    {name: "Web Application Hacker's Handbook", url: "https://www.amazon.com/Web-Application-Hackers-Handbook-Exploiting/dp/1118026470", icon: "book"},
-                    {name: "PTES Technical Guide", url: "http://www.pentest-standard.org/index.php/PTES_Technical_Guidelines", icon: "book"}
-                 ]},
-                {day: 94, date: "Thursday 11/12/2025", type: "P", topic: "Practice: Complete Methodology", 
-                 resources: [
-                    {name: "TryHackMe Web Application Pentesting Room", url: "https://tryhackme.com/room/webapppentesting", icon: "laptop-code"},
-                    {name: "Pentesting Practice", url: "https://www.hackthebox.com/", icon: "cube"}
-                 ]},
-                {day: 95, date: "Friday 12/12/2025", type: "S", topic: "Solving: Complete Methodology", 
-                 resources: [
-                    {name: "TryHackMe Test", url: "https://tryhackme.com/", icon: "laptop-code"}
-                 ]},
-                {day: 96, date: "Saturday 13/12/2025", type: "M", topic: "Report Writing - Part 1", 
-                 resources: [
-                    {name: "OWASP Testing Guide - Reporting", url: "https://owasp.org/www-project-web-security-testing-guide/latest/8-Reporting/", icon: "shield-halved"},
-                    {name: "HackerOne Report Guidelines", url: "https://www.hackerone.com/blog/How-To-Write-A-Good-Bug-Bounty-Report", icon: "bug"}
-                 ]},
-                {day: 97, date: "Sunday 14/12/2025", type: "M", topic: "Report Writing - Part 2", 
-                 resources: [
-                    {name: "Pentest Reports Templates", url: "https://www.offensive-security.com/reports/sample-penetration-testing-report.pdf", icon: "file-pdf"},
-                    {name: "Report Examples", url: "https://github.com/hmaverickadams/TTPentestGuide/blob/master/Reporting/ExampleReports.md", icon: "github"}
-                 ]},
-                {day: 98, date: "Monday 15/12/2025", type: "P", topic: "Practice: Writing a Report", 
-                 resources: [
-                    {name: "Report Template", url: "https://www.offensive-security.com/reports/sample-penetration-testing-report.pdf", icon: "file-pdf"},
-                    {name: "HackerOne Hacktivity", url: "https://hackerone.com/hacktivity", icon: "bug"}
-                 ]},
-                {day: 99, date: "Tuesday 16/12/2025", type: "S", topic: "Solving: Report Review", 
-                 resources: [
-                    {name: "Report Review Guidelines", url: "https://www.pcisecuritystandards.org/documents/Penetration-Testing-Guidance-v1_1.pdf", icon: "file-pdf"}
-                 ]},
-                {day: 100, date: "Wednesday 17/12/2025", type: "S", topic: "Test Day", 
-                 resources: [
-                    {name: "OSWA Exam Info", url: "https://www.offensive-security.com/", icon: "certificate"},
-                    {name: "Exam Tips", url: "https://www.offensive-security.com/offensive-security-certification-exams-guide/", icon: "certificate"}
-                 ]}
-            ];
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
 
-            const tableBody = document.querySelector('#training-plan tbody');
-            let completedDays = 0;
-            
-            // Load saved progress from localStorage
-            const savedProgress = JSON.parse(localStorage.getItem('trainingPlanProgress')) || {};
-            
-            // Function to get icon HTML based on resource type
-            function getIconHtml(iconName) {
-                let iconHtml = '';
-                switch(iconName) {
-                    case 'youtube': iconHtml = '<i class="fab fa-youtube resource-icon" style="color: #ff0000;"></i>'; break;
-                    case 'bug': iconHtml = '<i class="fas fa-bug resource-icon" style="color: #ff6633;"></i>'; break;
-                    case 'shield-alt': iconHtml = '<i class="fas fa-shield-alt resource-icon" style="color: #000;"></i>'; break;
-                    case 'firefox': iconHtml = '<i class="fab fa-firefox resource-icon" style="color: #e66000;"></i>'; break;
-                    case 'book-open': iconHtml = '<i class="fas fa-book-open resource-icon" style="color: #3498db;"></i>'; break;
-                    case 'graduation-cap': iconHtml = '<i class="fas fa-graduation-cap resource-icon" style="color: #27ae60;"></i>'; break;
-                    case 'dollar-sign': iconHtml = '<i class="fas fa-dollar-sign resource-icon" style="color: #9b59b6;"></i>'; break;
-                    case 'github': iconHtml = '<i class="fab fa-github resource-icon" style="color: #333;"></i>'; break;
-                    case 'cube': iconHtml = '<i class="fas fa-cube resource-icon" style="color: #9fef00;"></i>'; break;
-                    case 'linux': iconHtml = '<i class="fab fa-linux resource-icon" style="color: #000;"></i>'; break;
-                    case 'blog': iconHtml = '<i class="fas fa-blog resource-icon" style="color: #ff5722;"></i>'; break;
-                    case 'database': iconHtml = '<i class="fas fa-database resource-icon" style="color: #3498db;"></i>'; break;
-                    case 'file-alt': iconHtml = '<i class="fas fa-file-alt resource-icon" style="color: #795548;"></i>'; break;
-                    case 'shield': iconHtml = '<i class="fas fa-shield resource-icon" style="color: #ff9800;"></i>'; break;
-                    case 'fingerprint': iconHtml = '<i class="fas fa-fingerprint resource-icon" style="color: #673ab7;"></i>'; break;
-                    case 'terminal': iconHtml = '<i class="fas fa-terminal resource-icon" style="color: #4caf50;"></i>'; break;
-                    case 'code': iconHtml = '<i class="fas fa-code resource-icon" style="color: #2196f3;"></i>'; break;
-                    case 'user-shield': iconHtml = '<i class="fas fa-user-shield resource-icon" style="color: #607d8b;"></i>'; break;
-                    case 'file-pdf': iconHtml = '<i class="fas fa-file-pdf resource-icon" style="color: #f44336;"></i>'; break;
-                    case 'exclamation-triangle': iconHtml = '<i class="fas fa-exclamation-triangle resource-icon" style="color: #ffeb3b;"></i>'; break;
-                    case 'certificate': iconHtml = '<i class="fas fa-certificate resource-icon" style="color: #ffc107;"></i>'; break;
-                    case 'shield-halved': iconHtml = '<i class="fas fa-shield-halved resource-icon" style="color: #000;"></i>'; break;
-                    case 'laptop-code': iconHtml = '<i class="fas fa-laptop-code resource-icon" style="color: #3498db;"></i>'; break;
-                    case 'book': iconHtml = '<i class="fas fa-book resource-icon" style="color: #795548;"></i>'; break;
-                    case 'lock': iconHtml = '<i class="fas fa-lock resource-icon" style="color: #333;"></i>'; break;
-                    default: iconHtml = '<i class="fas fa-link resource-icon" style="color: #3498db;"></i>'; break;
+        // Psychological Test Logic with Pressure Simulation
+        let testAnswers = {};
+        let currentQuestion = 1;
+        let testTimer = null;
+        let timeRemaining = 30;
+        let pressureLevel = 0;
+        let testStarted = false;
+
+        const questions = [
+            {
+                id: 1,
+                question: "🚨 SECURITY ALERT: You receive an urgent email from 'your bank' requesting immediate personal data update to avoid account closure. The email states you have only 2 minutes to respond. What would you do?",
+                options: {
+                    'immediate': 'Open the link and update data immediately',
+                    'verify': 'Call the bank to verify the message first',
+                    'ignore': 'Ignore the message completely'
+                },
+                pressure: 'high'
+            },
+            {
+                id: 2,
+                question: "⚡ URGENT: At work, you receive a call from someone claiming to be from IT department asking for your password to solve a critical technical issue. They say the system will crash in 3 minutes. What would you do?",
+                options: {
+                    'give': 'Give them the password immediately',
+                    'verify': 'Ask them to prove their identity first',
+                    'refuse': 'Refuse and report to security department'
+                },
+                pressure: 'high'
+            },
+            {
+                id: 3,
+                question: "🔴 CRITICAL: You find a USB drive in the parking lot with a note 'URGENT: Important photos - please review immediately'. Your boss is waiting for these files. What would you do?",
+                options: {
+                    'plug': 'Plug it into your computer immediately',
+                    'scan': 'Scan it with antivirus software first',
+                    'ignore': 'Ignore it and dispose of it'
+                },
+                pressure: 'medium'
+            },
+            {
+                id: 4,
+                question: "⚠️ TIME SENSITIVE: A colleague asks you to share your login credentials to help with an urgent project that's due in 10 minutes. What would you do?",
+                options: {
+                    'share': 'Share the credentials immediately',
+                    'supervise': 'Log in yourself and supervise their work',
+                    'refuse': 'Refuse and suggest alternative solutions'
+                },
+                pressure: 'medium'
+            },
+            {
+                id: 5,
+                question: "🚨 FINAL ALERT: You receive a text message claiming you've won a prize and need to click a link to claim it within 5 minutes or it expires. What would you do?",
+                options: {
+                    'click': 'Click the link immediately',
+                    'verify': 'Verify the sender and message authenticity',
+                    'delete': 'Delete the message without clicking'
+                },
+                pressure: 'high'
+            }
+        ];
+
+        function startPressureTest() {
+            console.log('Start test button clicked!'); // Debug log
+            testStarted = true;
+            document.getElementById('startTestBtn').style.display = 'none';
+            document.getElementById('resetTestBtn').style.display = 'inline-block';
+
+            // Start stress sound effect
+            startStressSound();
+
+            // Start timer
+            timeRemaining = 30;
+            startTimer();
+
+            // Add stress effects
+            addStressEffects();
+
+            // Show first question with pressure
+            showNextQuestion(1);
+        }
+
+        // Stress sound effect function
+        function startStressSound() {
+            try {
+                // Create audio context
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Function to create beep sound
+                function createBeep(frequency, duration, delay) {
+                    setTimeout(() => {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                        oscillator.type = 'square'; // Sharp, stressful sound
+                        
+                        // Create envelope for sharp attack and decay
+                        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                        
+                        oscillator.start(audioContext.currentTime);
+                        oscillator.stop(audioContext.currentTime + duration);
+                    }, delay);
                 }
-                return iconHtml;
-            }
-            
-            // Fill the table with data
-            planData.forEach(day => {
-                const isCompleted = savedProgress[day.day] || false;
-                if (isCompleted) completedDays++;
                 
-                const row = document.createElement('tr');
-                row.classList.add(`type-${day.type}`);
-                if (isCompleted) row.classList.add('completed');
+                // Create "tet tet teet teet" pattern
+                const beepPattern = [
+                    { freq: 800, duration: 0.1, delay: 0 },      // tet
+                    { freq: 800, duration: 0.1, delay: 200 },    // tet
+                    { freq: 1000, duration: 0.15, delay: 400 },  // teet
+                    { freq: 1000, duration: 0.15, delay: 600 },  // teet
+                ];
                 
-                // Create resource links
-                const resourcesHtml = day.resources.map(resource => {
-                    let iconHtml = '';
-                    if (resource.icon) {
-                        iconHtml = getIconHtml(resource.icon);
-                    }
-                    
-                    if (resource.badge) {
-                        return `<a href="${resource.url}" target="_blank" class="resource-link">${iconHtml}${resource.name} <span class="portswigger-badge">${resource.badge}</span></a>`;
-                    } else {
-                        return `<a href="${resource.url}" target="_blank" class="resource-link">${iconHtml}${resource.name}</a>`;
-                    }
-                }).join(' ');
-                
-                row.innerHTML = `
-                    <td>
-                        <input type="checkbox" class="day-checkbox" data-day="${day.day}" ${isCompleted ? 'checked' : ''}>
-                    </td>
-                    <td>${day.day}</td>
-                    <td>${day.date}</td>
-                    <td>${day.type}</td>
-                    <td>${day.topic}</td>
-                    <td>${resourcesHtml}</td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            // Update progress display
-            function updateProgressDisplay() {
-                const percent = (completedDays / 100) * 100;
-                document.getElementById('progress-fill').style.width = `${percent}%`;
-                document.getElementById('progress-percent').textContent = `${percent.toFixed(1)}%`;
-                document.getElementById('completed-days').textContent = completedDays;
-                document.getElementById('remaining-days').textContent = 100 - completedDays;
-                document.getElementById('completion-rate').textContent = `${percent.toFixed(1)}%`;
-                
-                // Save progress to localStorage
-                const checkboxes = document.querySelectorAll('.day-checkbox');
-                const progress = {};
-                checkboxes.forEach(checkbox => {
-                    progress[checkbox.dataset.day] = checkbox.checked;
+                // Play the pattern
+                beepPattern.forEach(beep => {
+                    createBeep(beep.freq, beep.duration, beep.delay);
                 });
-                localStorage.setItem('trainingPlanProgress', JSON.stringify(progress));
-            }
-            
-            // Set up checkbox event listeners
-            document.querySelectorAll('.day-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const row = this.closest('tr');
-                    if (this.checked) {
-                        row.classList.add('completed');
-                        completedDays++;
-                    } else {
-                        row.classList.remove('completed');
-                        completedDays--;
-                    }
-                    updateProgressDisplay();
-                });
-            });
-            
-            // Set up filter buttons
-            const filterButtons = document.querySelectorAll('.filter-buttons button');
-            const allRows = document.querySelectorAll('#training-plan tbody tr');
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const filter = button.id.replace('btn-', '');
-                    
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to the clicked button
-                    button.classList.add('active');
-                    
-                    // Apply the filter
-                    allRows.forEach(row => {
-                        if (filter === 'all') {
-                            row.style.display = '';
-                        } else if (filter === 'completed') {
-                            if (row.classList.contains('completed')) {
-                                row.style.display = '';
-                            } else {
-                                row.style.display = 'none';
-                            }
-                        } else {
-                            if (row.classList.contains(`type-${filter}`)) {
-                                row.style.display = '';
-                            } else {
-                                row.style.display = 'none';
-                            }
-                        }
+                
+                // Repeat the pattern every 2 seconds for stress
+                window.stressSoundInterval = setInterval(() => {
+                    beepPattern.forEach(beep => {
+                        createBeep(beep.freq, beep.duration, beep.delay);
                     });
-                });
-            });
+                }, 2000);
+                
+            } catch (error) {
+                console.log('Audio not supported or blocked:', error);
+            }
+        }
+
+        function stopStressSound() {
+            if (window.stressSoundInterval) {
+                clearInterval(window.stressSoundInterval);
+                window.stressSoundInterval = null;
+            }
+        }
+
+        // Calming alert function
+        function showCalmingAlert() {
+            // Create the calming alert HTML
+            const alertHTML = `
+                <div class="calming-alert" id="calmingAlert">
+                    <div class="calming-alert-content">
+                        <div class="calming-content-wrapper">
+                            <h2><i class="bi bi-heart-fill me-2"></i>Assessment Complete!</h2>
+                            <p>Congratulations! You've successfully completed the psychological pressure assessment. Take a moment to breathe and relax. Your results are being analyzed...</p>
+                            <div class="calming-progress">
+                                <div class="calming-progress-bar"></div>
+                            </div>
+                            <div class="calming-timer" id="calmingTimer">30 seconds remaining...</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add to body
+            document.body.insertAdjacentHTML('beforeend', alertHTML);
+
+            // Start countdown timer
+            let timeLeft = 30;
+            const timerElement = document.getElementById('calmingTimer');
             
-            // Print button
-            document.getElementById('btn-print').addEventListener('click', () => {
-                window.print();
+            const countdown = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = `${timeLeft} seconds remaining...`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    hideCalmingAlert();
+                }
+            }, 1000);
+
+            // Auto-hide after 30 seconds
+            setTimeout(() => {
+                hideCalmingAlert();
+            }, 30000);
+        }
+
+        function hideCalmingAlert() {
+            const alert = document.getElementById('calmingAlert');
+            if (alert) {
+                alert.style.animation = 'fadeOut 0.5s ease-in-out';
+                setTimeout(() => {
+                    alert.remove();
+                }, 500);
+            }
+        }
+
+        function startTimer() {
+            testTimer = setInterval(() => {
+                timeRemaining--;
+                document.getElementById('testTimer').textContent = `⏰ ${timeRemaining}s`;
+
+                // Increase pressure as time runs out
+                if (timeRemaining <= 10) {
+                    pressureLevel = 3;
+                    document.getElementById('pressureLevel').textContent = 'Pressure Level: CRITICAL';
+                    document.getElementById('pressureLevel').style.background = 'var(--danger-color)';
+                    addCriticalStressEffects();
+                } else if (timeRemaining <= 20) {
+                    pressureLevel = 2;
+                    document.getElementById('pressureLevel').textContent = 'Pressure Level: HIGH';
+                    document.getElementById('pressureLevel').style.background = 'var(--warning-color)';
+                    addHighStressEffects();
+                } else {
+                    pressureLevel = 1;
+                    document.getElementById('pressureLevel').textContent = 'Pressure Level: MEDIUM';
+                    document.getElementById('pressureLevel').style.background = 'var(--info-color)';
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(testTimer);
+                    timeUp();
+                }
+            }, 1000);
+        }
+
+        function addStressEffects() {
+            // Add subtle vibration effect
+            const testContainer = document.querySelector('.pressure-test');
+            testContainer.style.animation = 'stressVibrate 3s ease-in-out infinite';
+
+            // Add subtle siren effect (visual representation)
+            const siren = document.createElement('div');
+            siren.className = 'siren-sound';
+            siren.innerHTML = '⚠️';
+            siren.id = 'sirenEffect';
+            testContainer.appendChild(siren);
+        }
+
+        function addHighStressEffects() {
+            // Add subtle stress overlay flash
+            const overlay = document.createElement('div');
+            overlay.className = 'stress-overlay';
+            document.body.appendChild(overlay);
+
+            setTimeout(() => {
+                document.body.removeChild(overlay);
+            }, 300);
+        }
+
+        function addCriticalStressEffects() {
+            // More intense vibration but still realistic
+            const testContainer = document.querySelector('.pressure-test');
+            testContainer.style.animation = 'stressVibrate 0.8s ease-in-out infinite';
+
+            // Flash red background
+            addHighStressEffects();
+        }
+
+        function timeUp() {
+            alert('⏰ TIME\'S UP! The test has ended due to time pressure. This simulates real-world cyber attack scenarios where attackers use urgency to force quick decisions.');
+            analyzeResults();
+        }
+
+        function answerQuestion(questionId, answer) {
+            if (!testStarted) {
+                alert('Please start the pressure test first!');
+                return;
+            }
+
+            testAnswers[questionId] = answer;
+
+            // Add visual feedback based on answer
+            addAnswerFeedback(answer);
+
+            if (questionId < questions.length) {
+                showNextQuestion(questionId + 1);
+            } else {
+                clearInterval(testTimer);
+                analyzeResults();
+            }
+        }
+
+        function addAnswerFeedback(answer) {
+            // Add visual feedback based on answer type
+            const question = document.querySelector('.pressure-question');
+
+            if (answer === 'immediate' || answer === 'give' || answer === 'plug' || answer === 'share' || answer === 'click') {
+                // Risky answer - green flash (confusion - looks safe but is dangerous)
+                question.style.borderColor = 'var(--calm-color)';
+                question.style.boxShadow = '0 0 15px rgba(56, 161, 105, 0.4)';
+                setTimeout(() => {
+                    question.style.borderColor = '';
+                    question.style.boxShadow = '';
+                }, 1500);
+            } else if (answer === 'verify' || answer === 'refuse' || answer === 'scan' || answer === 'supervise' || answer === 'delete') {
+                // Safe answer - red flash (confusion - looks dangerous but is safe)
+                question.style.borderColor = 'var(--danger-color)';
+                question.style.boxShadow = '0 0 15px rgba(229, 62, 62, 0.4)';
+                setTimeout(() => {
+                    question.style.borderColor = '';
+                    question.style.boxShadow = '';
+                }, 1500);
+            }
+        }
+
+        function showNextQuestion(questionId) {
+            const question = questions[questionId - 1];
+            const container = document.getElementById('testContainer');
+
+            // Add pressure class based on question pressure level
+            const pressureClass = question.pressure === 'high' ? 'urgent' : '';
+
+            container.innerHTML = `
+                <div class="pressure-question ${pressureClass}" id="question${questionId}">
+                    <h6><i class="bi bi-exclamation-triangle text-warning me-2"></i>URGENT: Question ${questionId} of ${questions.length} - Time Critical Decision</h6>
+                    <p class="fw-bold fs-5">${question.question}</p>
+                    <div class="d-grid gap-3">
+                        ${Object.entries(question.options).map(([key, text]) => {
+                // ALL buttons are RED for maximum confusion
+                let buttonClass = 'pressure-button'; // All buttons are red
+                let icon = 'bi-exclamation-triangle';
+
+                return `<button class="${buttonClass}" onclick="answerQuestion(${questionId}, '${key}')">
+                                <i class="bi ${icon} me-2"></i>${text}
+                            </button>`;
+            }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function analyzeResults() {
+            // Clear timer
+            if (testTimer) {
+                clearInterval(testTimer);
+            }
+
+            // Stop stress sound
+            stopStressSound();
+
+            // Show calming alert first
+            showCalmingAlert();
+
+            // Delay showing results until after calming alert
+            setTimeout(() => {
+                showTestResults();
+            }, 30000); // 30 seconds delay
+        }
+
+        function showTestResults() {
+            // Advanced analysis based on answers and pressure
+            let score = 0;
+            let analysis = {
+                pressureResistance: 0,
+                criticalThinking: 0,
+                threatAwareness: 0,
+                emotionalControl: 0,
+                riskAssessment: 0
+            };
+
+            // Analyze answers with weighted scoring
+            Object.values(testAnswers).forEach(answer => {
+                switch (answer) {
+                    case 'verify':
+                    case 'refuse':
+                    case 'scan':
+                    case 'supervise':
+                        score += 3;
+                        analysis.pressureResistance += 1;
+                        analysis.criticalThinking += 1;
+                        analysis.threatAwareness += 1;
+                        analysis.riskAssessment += 1;
+                        break;
+                    case 'ignore':
+                    case 'delete':
+                        score += 2;
+                        analysis.threatAwareness += 1;
+                        analysis.riskAssessment += 1;
+                        break;
+                    case 'immediate':
+                    case 'give':
+                    case 'plug':
+                    case 'share':
+                    case 'click':
+                        score += 0;
+                        break;
+                }
             });
-            
-            // Initial progress update
-            updateProgressDisplay();
-        });
+
+            // Calculate percentages
+            const totalQuestions = questions.length;
+            const percentage = Math.round((score / (totalQuestions * 3)) * 100);
+
+            // Calculate pressure resistance score
+            const pressureScore = Math.round((analysis.pressureResistance / totalQuestions) * 100);
+            const timeBonus = timeRemaining > 0 ? Math.round((timeRemaining / 30) * 20) : 0;
+            const finalScore = Math.min(100, percentage + timeBonus);
+
+            // Update UI with enhanced analysis
+            document.getElementById('pressureResistance').textContent = analysis.pressureResistance > 2 ? 'Excellent' : analysis.pressureResistance > 1 ? 'Good' : 'Needs Improvement';
+            document.getElementById('criticalThinking').textContent = analysis.criticalThinking > 2 ? 'Excellent' : analysis.criticalThinking > 1 ? 'Good' : 'Needs Improvement';
+            document.getElementById('threatAwareness').textContent = analysis.threatAwareness > 2 ? 'High' : analysis.threatAwareness > 1 ? 'Medium' : 'Low';
+            document.getElementById('emotionalControl').textContent = score > 10 ? 'Excellent' : score > 6 ? 'Good' : 'Needs Improvement';
+            document.getElementById('riskAssessment').textContent = analysis.riskAssessment > 2 ? 'Excellent' : analysis.riskAssessment > 1 ? 'Good' : 'Needs Improvement';
+
+            // Generate detailed recommendations with pressure analysis
+            let recommendations = '';
+            if (finalScore >= 80) {
+                recommendations = `
+                    <div class="alert alert-success">
+                        <h6><i class="bi bi-trophy me-2"></i>Excellent Performance Under Pressure!</h6>
+                        <p>Your cyber awareness level is <strong>Expert</strong>. You demonstrate exceptional security instincts and critical thinking even under time pressure.</p>
+                        <ul class="mb-0">
+                            <li><strong>Pressure Resistance:</strong> ${pressureScore}% - You maintain composure under stress</li>
+                            <li><strong>Time Management:</strong> ${timeRemaining > 0 ? 'Completed with ' + timeRemaining + 's remaining' : 'Time expired'}</li>
+                            <li>Continue advanced security training</li>
+                            <li>Consider becoming a security mentor</li>
+                            <li>Stay updated with latest threats</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (finalScore >= 60) {
+                recommendations = `
+                    <div class="alert alert-warning">
+                        <h6><i class="bi bi-shield-check me-2"></i>Good Performance Under Pressure</h6>
+                        <p>Your cyber awareness level is <strong>Aware</strong>. You have good security habits but can improve your response under pressure.</p>
+                        <ul class="mb-0">
+                            <li><strong>Pressure Resistance:</strong> ${pressureScore}% - Room for improvement under stress</li>
+                            <li><strong>Time Management:</strong> ${timeRemaining > 0 ? 'Completed with ' + timeRemaining + 's remaining' : 'Time expired'}</li>
+                            <li>Practice decision-making under time pressure</li>
+                            <li>Review security best practices regularly</li>
+                            <li>Participate in security awareness programs</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                recommendations = `
+                    <div class="alert alert-danger">
+                        <h6><i class="bi bi-exclamation-triangle me-2"></i>Needs Improvement Under Pressure</h6>
+                        <p>Your cyber awareness level is <strong>Beginner</strong>. Pressure significantly affects your decision-making. Immediate training recommended.</p>
+                        <ul class="mb-0">
+                            <li><strong>Pressure Resistance:</strong> ${pressureScore}% - High vulnerability to pressure tactics</li>
+                            <li><strong>Time Management:</strong> ${timeRemaining > 0 ? 'Completed with ' + timeRemaining + 's remaining' : 'Time expired'}</li>
+                            <li>Join comprehensive security awareness training</li>
+                            <li>Learn about common attack vectors and pressure tactics</li>
+                            <li>Practice safe online behaviors daily</li>
+                            <li>Focus on developing critical thinking under stress</li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            document.getElementById('recommendations').innerHTML = recommendations;
+
+            // Show completion message with enhanced UI
+            document.getElementById('testContainer').innerHTML = `
+                <div class="alert alert-success">
+                    <h5><i class="bi bi-check-circle me-2"></i>Pressure Assessment Complete!</h5>
+                    <p><strong>Your Score:</strong> ${score} out of ${totalQuestions * 3} (${percentage}%)</p>
+                    <p><strong>Pressure Resistance:</strong> ${pressureScore}%</p>
+                    <p><strong>Time Remaining:</strong> ${timeRemaining}s</p>
+                    <p><strong>Final Score:</strong> ${finalScore}%</p>
+                    <p><strong>Cyber Awareness Level:</strong> ${finalScore >= 80 ? 'Expert' : finalScore >= 60 ? 'Aware' : 'Beginner'}</p>
+                    <button class="btn btn-primary me-2" onclick="resetTest()">Retake Test</button>
+                    <button class="btn btn-outline-primary" onclick="downloadReport()">Download Report</button>
+                </div>
+            `;
+        }
+
+        function resetPressureTest() {
+            // Clear timer
+            if (testTimer) {
+                clearInterval(testTimer);
+            }
+
+            // Stop stress sound
+            stopStressSound();
+
+            // Reset variables
+            testAnswers = {};
+            currentQuestion = 1;
+            timeRemaining = 30;
+            pressureLevel = 0;
+            testStarted = false;
+
+            // Reset UI
+            document.getElementById('startTestBtn').style.display = 'inline-block';
+            document.getElementById('resetTestBtn').style.display = 'none';
+            document.getElementById('testTimer').textContent = '⏰ 30s';
+            document.getElementById('pressureLevel').textContent = 'Pressure Level: LOW';
+            document.getElementById('pressureLevel').style.background = '';
+
+            // Remove stress effects
+            const testContainer = document.querySelector('.pressure-test');
+            testContainer.style.animation = '';
+
+            const sirenEffect = document.getElementById('sirenEffect');
+            if (sirenEffect) {
+                sirenEffect.remove();
+            }
+
+            // Reset analysis
+            document.getElementById('pressureResistance').textContent = '-';
+            document.getElementById('criticalThinking').textContent = '-';
+            document.getElementById('threatAwareness').textContent = '-';
+            document.getElementById('emotionalControl').textContent = '-';
+            document.getElementById('riskAssessment').textContent = '-';
+            document.getElementById('recommendations').innerHTML = '<p>Answer the questions to get detailed analysis</p>';
+
+            // Show initial question
+            showNextQuestion(1);
+        }
+
+        function resetTest() {
+            resetPressureTest();
+        }
+
+        // Additional demo functions
+        function startPhishingDemo() {
+            alert('Phishing Simulation Demo: This would show realistic phishing emails and test your detection skills!');
+        }
+
+        function startSocialDemo() {
+            alert('Social Engineering Demo: This would present realistic social engineering scenarios!');
+        }
+
+        function showProgressDemo() {
+            alert('Progress Tracking Demo: This would show your cybersecurity awareness improvement over time!');
+        }
+
+        function downloadReport() {
+            alert('Download Report: This would generate a detailed PDF report of your assessment results!');
+        }
+
+        function startAIDemo() {
+            alert('AI Chatbot Demo: This would launch the full AI assistant for interactive cybersecurity guidance!');
+        }
+
+        // Initialize first question
+        showNextQuestion(1);
     </script>
 </body>
+
 </html>
